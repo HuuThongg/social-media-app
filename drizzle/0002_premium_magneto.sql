@@ -1,0 +1,1 @@
+ALTER TABLE "verificationToken" ADD COLUMN "id" serial NOT NULL;

@@ -1,0 +1,34 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1704835531884,
+      "tag": "0000_tan_black_cat",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1704836583622,
+      "tag": "0001_round_jubilee",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1704843702554,
+      "tag": "0002_premium_magneto",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1704853490971,
+      "tag": "0003_bizarre_vance_astro",
+      "breakpoints": true
+    }
+  ]
+}
