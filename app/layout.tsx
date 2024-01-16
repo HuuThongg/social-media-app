@@ -4,6 +4,9 @@ import './globals.css'
 import { auth } from '@/auth'
 import { Toaster } from '@/components/ui/sonner'
 import { SessionProvider } from 'next-auth/react'
+import Provider from '@/components/providers'
+import NavBar from './_components/navBar'
+import WindowChat from './_components/windowChat/WindowChat'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,8 +26,12 @@ export default async function RootLayout({
     <SessionProvider session={session}>
       <html lang="en">
         <body className={inter.className}>
-          <Toaster/>
-          {children}
+          <Provider>
+            <Toaster/>
+            <NavBar />
+            <WindowChat />
+            {children}
+          </Provider>
         </body>
       </html>
     </SessionProvider>

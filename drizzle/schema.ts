@@ -1,5 +1,3 @@
-import * as z from "zod";
-
 import {
   timestamp,
   pgTable,
@@ -26,7 +24,7 @@ export const users = pgTable("user", {
   image: text("image"),
   password: text("password"),
   role: roleEnum("role").default("USER"),
-  createdAt: timestamp("createdAt", { mode: "date" }),
+  createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
 });
 
 export const userInfo = pgTable("userInfo", {
@@ -36,9 +34,16 @@ export const userInfo = pgTable("userInfo", {
   phone: varchar("phone", { length: 256 }),
 });
 export const usersRelations = relations(users, ({ many, one }) => ({
-  accounts: many(accounts),
+  accounts: many(accounts, { relationName: "account" }),
   userInfo: one(userInfo),
-  messages: many(messages),
+  conversations: many(conversations, { relationName: "conversation" }),
+  messages: many(messages, { relationName: "message" }),
+}));
+export const userInfoRelations = relations(userInfo, ({ one }) => ({
+  users: one(users, {
+    fields: [userInfo.userId],
+    references: [users.id],
+  }),
 }));
 
 export const accounts = pgTable(
@@ -75,7 +80,7 @@ export const posts = pgTable("post", {
   id: serial("id").primaryKey(),
   authorId: text("author_id"),
   content: text("content"),
-  createdAt: timestamp("createdAt", { mode: "date" }),
+  createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
 });
 
 export const postsRelations = relations(posts, ({ one, many }) => ({
@@ -84,31 +89,52 @@ export const postsRelations = relations(posts, ({ one, many }) => ({
     references: [users.id],
   }),
   comments: many(comments),
+  postLikes: many(postLikes),
+  postToImg: many(postToImg),
 }));
 
-export const postToImg = pgTable("post_to_img", {
-  postId: integer("id").references(() => posts.id, { onDelete: "cascade" }),
-  imgUrl: text("imgUrl"),
+export const postLikes = pgTable("postLike", {
+  postId: integer("id").references(() => posts.id),
+  userId: text("user_id").references(() => users.id),
 });
 
-export const comments = pgTable("comment", {
-  id: serial("id").primaryKey(),
-  authorId: text("authorId"),
-  postId: integer("postId"),
-  parentId: integer("parentId").default(sql`NULL`),
-  content: text("content"),
-  createdAt: timestamp("createdAt", { mode: "date" }),
-});
-
-export const commentsRelations = relations(comments, ({ one }) => ({
+export const postLikeRelations = relations(postLikes, ({ one }) => ({
   post: one(posts, {
-    fields: [comments.postId],
+    fields: [postLikes.postId],
     references: [posts.id],
   }),
 }));
 
+export const postToImg = pgTable("post_to_img", {
+  postId: integer("id").references(() => posts.id),
+  imgUrl: text("imgUrl"),
+});
+export const postToImgRelations = relations(postToImg, ({ one }) => ({
+  post: one(posts, {
+    fields: [postToImg.postId],
+    references: [posts.id],
+  }),
+}));
+
+export const comments = pgTable("comment", {
+  id: serial("id").primaryKey(),
+  authorId: text("authorId").notNull(),
+  postId: integer("postId"),
+  parentId: integer("parentId").default(sql`NULL`),
+  content: text("content"),
+  createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
+});
+
+export const commentsRelations = relations(comments, ({ one, many }) => ({
+  post: one(posts, {
+    fields: [comments.postId],
+    references: [posts.id],
+  }),
+  commentLikes: many(commentLikes),
+}));
+
 export const commentLikes = pgTable("commentLike", {
-  commentId: serial("comment").primaryKey(),
+  commentId: serial("commentId").primaryKey(),
   useId: text("userId"),
 });
 export const commentLikesRelations = relations(commentLikes, ({ one }) => ({
@@ -122,13 +148,15 @@ export const conversations = pgTable("conversation", {
   id: serial("id").primaryKey(),
   userOne: text("userOne").references(() => users.id),
   userTwo: text("userTwo").references(() => users.id),
-  createdAt: timestamp("createdAt", { mode: "date" }),
+  createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
 });
 
 export const conversationsRelations = relations(
   conversations,
-  ({ one, many }) => ({
+  ({ many, one }) => ({
     messages: many(messages),
+    userOne: many(users),
+    userTwo: many(users),
   })
 );
 
@@ -138,7 +166,7 @@ export const messages = pgTable("message", {
   imgUrl: text("imgUrl"),
   conversationId: integer("conversationId"),
   senderId: text("senderId").references(() => users.id),
-  deleted: boolean("deleted").default(false),
+  deleted: boolean("deleted").default(false).notNull(),
 });
 
 export const messagesRelations = relations(messages, ({ one, many }) => ({
@@ -171,8 +199,34 @@ export const verificationTokens = pgTable(
   })
 );
 
+export const friends = pgTable("friends", {
+  user1Id: text("user1Id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  user2Id: text("user2Id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+});
 
+export const friendsRelations = relations(friends, ({ one }) => ({
+  user1: one(users, {
+    fields: [friends.user1Id],
+    references: [users.id],
+  }),
+  user2: one(users, {
+    fields: [friends.user2Id],
+    references: [users.id],
+  }),
+}));
+
+import * as z from "zod";
 
 export const RoleEnumType = z.enum(roleEnum.enumValues).Enum;
-
-
+export type Posts = typeof posts.$inferSelect;
+export type User = typeof users.$inferSelect;
+export type NewUser = typeof users.$inferInsert;
+export type PostLikes = typeof postLikes.$inferSelect;
+export type PostToImg = typeof postToImg.$inferSelect;
+export type Comments = typeof comments.$inferSelect;
+export type CommentLikes = typeof commentLikes.$inferSelect;
+export type Message = typeof messages.$inferSelect;

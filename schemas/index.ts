@@ -7,7 +7,7 @@ import { RoleEnumType } from "@/drizzle/schema";
 export const SettingsSchema = z
   .object({
     name: z.optional(z.string()),
-    role: z.enum([RoleEnumType.USER]),
+    role: z.enum([RoleEnumType.USER,RoleEnumType.ADMIN]),
     email: z.optional(z.string().email()),
     password: z.optional(z.string().min(6)),
     newPassword: z.optional(z.string().min(6)),

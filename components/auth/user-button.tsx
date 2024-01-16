@@ -16,10 +16,27 @@ import {
 } from "@/components/ui/avatar";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { LogoutButton } from "@/components/auth/logout-button";
+import { cn } from "@/lib/utils";
 
-export const UserButton = () => {
+interface LoginUserButtons {
+  mode?: "dropdownMenu" | "none",
+  className? : string
+};
+export const UserButton = ({
+  mode = "none",
+  className
+}: LoginUserButtons) => {
   const user = useCurrentUser();
-
+  if(mode === "none"){
+    return(
+      <Avatar className={cn(className)}>
+        <AvatarImage src={user?.image || ""} />
+        <AvatarFallback className="bg-sky-500">
+          <FaUser className="text-white" />
+        </AvatarFallback>
+      </Avatar>
+    )
+  }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
