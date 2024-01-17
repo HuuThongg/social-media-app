@@ -2,6 +2,7 @@
 import { db } from "@/db";
 import { accounts, conversations, users } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
+
 export async function createConversation(
   userOne: string ,
   userTwo: string

@@ -11,7 +11,7 @@ export default async function unfollow({ postId }: { postId: number }) {
     redirect("/auth/login");
   }
   try {
-    // save post to database
+    // unfollow post to database
     return { success: "Unfollow This user" };
   } catch (error) {
     return { error: "Error unfollowing this user" };
