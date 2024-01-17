@@ -1,9 +1,8 @@
+// 'use client'
 import Image from 'next/image';
 import { Earth } from '@/components/icon';
-import { EllipsisHorizontalIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import Engagement from './Engagement';
-import { SchemaComment } from './comment/constanst';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import updateLocal from 'dayjs/plugin/updateLocale';
 import dayjs from 'dayjs';
@@ -12,6 +11,8 @@ import { User, PostLikes, PostToImg, Comments } from '@/drizzle/schema';
 
 import ImageSection from './ImageSection';
 import { Posts } from '@/drizzle/schema';
+
+import { PostToolTip } from './post-tooltip';
 
 dayjs.extend(relativeTime);
 dayjs.extend(updateLocal);
@@ -88,14 +89,8 @@ export default function Post({ post }: PostProps) {
               </span>
             </div>
           </div>
-          <div className="flex items-center justify-center  gap-x-2 p-2">
-            <span className="cursor-pointer overflow-hidden rounded-full p-1 hover:bg-third-clr">
-              <EllipsisHorizontalIcon className="h-6 w-6" />
-            </span>
-            <span className="cursor-pointer overflow-hidden rounded-full p-1 hover:bg-third-clr">
-              <XMarkIcon className="h-6 w-6" />
-            </span>
-          </div>
+          <PostToolTip postId={postId}/>
+          
         </div>
         {/* actual content */}
         <div>

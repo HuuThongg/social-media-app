@@ -33,12 +33,7 @@ export const userInfo = pgTable("userInfo", {
   birthday: date("birthday"),
   phone: varchar("phone", { length: 256 }),
 });
-export const usersRelations = relations(users, ({ many, one }) => ({
-  accounts: many(accounts, { relationName: "account" }),
-  userInfo: one(userInfo),
-  conversations: many(conversations, { relationName: "conversation" }),
-  messages: many(messages, { relationName: "message" }),
-}));
+
 export const userInfoRelations = relations(userInfo, ({ one }) => ({
   users: one(users, {
     fields: [userInfo.userId],
@@ -94,8 +89,8 @@ export const postsRelations = relations(posts, ({ one, many }) => ({
 }));
 
 export const postLikes = pgTable("postLike", {
-  postId: integer("id").references(() => posts.id),
-  userId: text("user_id").references(() => users.id),
+  postId: integer("id").references(() => posts.id, { onDelete: "cascade" }),
+  userId: text("user_id").references(() => users.id, { onDelete: "cascade" }),
 });
 
 export const postLikeRelations = relations(postLikes, ({ one }) => ({
@@ -106,7 +101,7 @@ export const postLikeRelations = relations(postLikes, ({ one }) => ({
 }));
 
 export const postToImg = pgTable("post_to_img", {
-  postId: integer("id").references(() => posts.id),
+  postId: integer("id").references(() => posts.id, { onDelete: "cascade" }),
   imgUrl: text("imgUrl"),
 });
 export const postToImgRelations = relations(postToImg, ({ one }) => ({
@@ -155,8 +150,16 @@ export const conversationsRelations = relations(
   conversations,
   ({ many, one }) => ({
     messages: many(messages),
-    userOne: many(users),
-    userTwo: many(users),
+    // userOne: many(users),
+    // userTwo: many(users),
+    userOne: one(users, {
+      fields: [conversations.userOne],
+      references: [users.id],
+    }),
+    userTwo: one(users, {
+      fields: [conversations.userOne],
+      references: [users.id],
+    }),
   })
 );
 
@@ -165,14 +168,28 @@ export const messages = pgTable("message", {
   content: text("content"),
   imgUrl: text("imgUrl"),
   conversationId: integer("conversationId"),
-  senderId: text("senderId").references(() => users.id),
+  senderId: text("senderId")
+    .references(() => users.id)
+    .notNull(),
+  receivedId: text("receivedId")
+    .references(() => users.id)
+    .notNull(),
   deleted: boolean("deleted").default(false).notNull(),
+  createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
 });
 
 export const messagesRelations = relations(messages, ({ one, many }) => ({
   conversation: one(conversations, {
     fields: [messages.conversationId],
     references: [conversations.id],
+  }),
+  sender: one(users, {
+    fields: [messages.senderId],
+    references: [users.id],
+  }),
+  receiver: one(users, {
+    fields: [messages.receivedId],
+    references: [users.id],
   }),
 }));
 
@@ -217,6 +234,13 @@ export const friendsRelations = relations(friends, ({ one }) => ({
     fields: [friends.user2Id],
     references: [users.id],
   }),
+}));
+
+export const usersRelations = relations(users, ({ many, one }) => ({
+  accounts: many(accounts, { relationName: "account" }),
+  userInfo: one(userInfo),
+  conversations: many(conversations, { relationName: "conversation" }),
+  messages: many(messages, { relationName: "message" }),
 }));
 
 import * as z from "zod";

@@ -33,17 +33,12 @@ export const userInfo = pgTable("userInfo", {
   birthday: date("birthday"),
   phone: varchar("phone", { length: 256 }),
 });
-export const usersRelations = relations(users, ({ many, one }) => ({
-  accounts: many(accounts, { relationName: "account" }),
-  userInfo: one(userInfo),
-  conversations: many(conversations, { relationName: "conversation" }),
-  messages: many(messages, { relationName: "message" }),
-}));
+
 export const userInfoRelations = relations(userInfo, ({ one }) => ({
   users: one(users, {
-    fields:[userInfo.userId],
-    references:[users.id]
-  } ),
+    fields: [userInfo.userId],
+    references: [users.id],
+  }),
 }));
 
 export const accounts = pgTable(
@@ -75,6 +70,7 @@ export const accountsRelations = relations(accounts, ({ one }) => ({
     references: [users.id],
   }),
 }));
+
 
 export const posts = pgTable("post", {
   id: serial("id").primaryKey(),
@@ -130,7 +126,7 @@ export const commentsRelations = relations(comments, ({ one, many }) => ({
     fields: [comments.postId],
     references: [posts.id],
   }),
-  commentLikes: many(commentLikes)
+  commentLikes: many(commentLikes),
 }));
 
 export const commentLikes = pgTable("commentLike", {
@@ -146,41 +142,52 @@ export const commentLikesRelations = relations(commentLikes, ({ one }) => ({
 
 export const conversations = pgTable("conversation", {
   id: serial("id").primaryKey(),
-  userOne: text("userOne").references(() => users.id, { onDelete: "cascade" }),
-  userTwo: text("userTwo").references(() => users.id, { onDelete: "cascade" }),
+  userOne: text("userOne").references(() => users.id),
+  userTwo: text("userTwo").references(() => users.id),
   createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
 });
 
 export const conversationsRelations = relations(conversations, ({ many, one }) => ({
   messages: many(messages),
-  // userOne: one(users, {
-  //   fields: [conversations.userOne],
-  //   references: [users.id],
-  //   relationName: "userOne",
-  // }),
-  // userTwo: one(users, {
-  //   fields: [conversations.userTwo],
-  //   references: [users.id],
-  //   relationName: "userTwo",
-  // }),
+  // userOne: many(users),
+  // userTwo: many(users),
+  userOne: one(users, {
+    fields: [conversations.userOne],
+    references: [users.id],
+  }),
+  userTwo: one(users, {
+    fields: [conversations.userOne],
+    references: [users.id],
+  }),
 }));
 
 export const messages = pgTable("message", {
   id: serial("id").primaryKey(),
   content: text("content"),
   imgUrl: text("imgUrl"),
-  conversationId: integer("conversationId").references(()=> conversations.id, {onDelete: "cascade"}),
-  senderId: text("senderId").references(() => users.id, {
-    onDelete: "cascade",
-  }),
+  conversationId: integer("conversationId"),
+  senderId: text("senderId")
+    .references(() => users.id)
+    .notNull(),
+  receivedId: text("receivedId")
+    .references(() => users.id)
+    .notNull(),
   deleted: boolean("deleted").default(false).notNull(),
+  createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
 });
 
 export const messagesRelations = relations(messages, ({ one, many }) => ({
   conversation: one(conversations, {
     fields: [messages.conversationId],
     references: [conversations.id],
-
+  }),
+  sender: one(users, {
+    fields: [messages.senderId],
+    references: [users.id],
+  }),
+  receiver: one(users, {
+    fields: [messages.receivedId],
+    references: [users.id],
   }),
 }));
 
@@ -207,7 +214,6 @@ export const verificationTokens = pgTable(
   })
 );
 
-
 export const friends = pgTable("friends", {
   user1Id: text("user1Id")
     .notNull()
@@ -226,4 +232,11 @@ export const friendsRelations = relations(friends, ({ one }) => ({
     fields: [friends.user2Id],
     references: [users.id],
   }),
+}));
+
+export const usersRelations = relations(users, ({ many, one }) => ({
+  accounts: many(accounts, { relationName: "account" }),
+  userInfo: one(userInfo),
+  conversations: many(conversations, { relationName: "conversation" }),
+  messages: many(messages, { relationName: "message" }),
 }));

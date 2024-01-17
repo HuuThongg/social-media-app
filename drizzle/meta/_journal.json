@@ -50,6 +50,20 @@
       "when": 1705372388145,
       "tag": "0006_overrated_electro",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1705388276238,
+      "tag": "0007_true_viper",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1705391853038,
+      "tag": "0008_lazy_mikhail_rasputin",
+      "breakpoints": true
     }
   ]
 }

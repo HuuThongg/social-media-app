@@ -1,7 +1,7 @@
-'use client';
+
 import Link from 'next/link';
 
-import { FacebookIcon, Settings } from '@/components/icon';
+import { FacebookIcon } from '@/components/icon';
 
 import Search from './Search';
 

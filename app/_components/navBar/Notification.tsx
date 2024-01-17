@@ -1,49 +1,18 @@
-'use client';
-import Link from 'next/link';
-import Image from 'next/image';
-import clsx from 'clsx';
-import { EllipsisHorizontalIcon } from '@heroicons/react/24/solid';
-import { messages } from './constant';
-import { useLocalStorage } from '@/components/hooks/useLocalStorage';
-import type { Message, MessageBox } from '../windowChat/WindowChat';
+import { cn } from '@/lib/utils'
+import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid'
+import Image from 'next/image'
+import Link from 'next/link'
+import React from 'react'
 
-// interface Message {
-//   id: number;
-//   name: string;
-//   url: string;
-//   seen: boolean;
-//   lastMessage: string;
-// }
-// interface MessageBox extends Message{
-//   isOpen: boolean;
-// }
-const Messages = () => {
-  const [messageIds, setMessageIds] = useLocalStorage<MessageBox[]>(
-    'messageIds',
-    [],
-  );
-  console.log("object", messageIds);
-  const addMessageId = (message: Message) => {
-    console.log("- aDD  ------------------------------------------------------");
-
-    // Check if the message already exists in the messageIds array
-    const messageExists = messageIds.some((msg) => msg.id === message.id);
-    if (!messageExists) {
-      setMessageIds((prevMessageIds) => [
-        ...prevMessageIds,
-        { ...message, isOpen: true },
-      ]);
-    }
-  };
-
+const Notification = () => {
   return (
-    <div className="flex max-h-[calc(100vh-90px-152px)] flex-col overflow-y-scroll   scrollbar scrollbar-track-transparent scrollbar-thumb-fifth-clr scrollbar-thumb-rounded-md   scrollbar-w-3 hover:scrollbar-track-[#2c2d2f]">
+    <div className="flex max-h-[calc(100vh-90px-152px)] flex-col overflow-y-scroll scrollbar scrollbar-track-transparent scrollbar-thumb-fifth-clr scrollbar-thumb-rounded-md   scrollbar-w-3 hover:scrollbar-track-[#2c2d2f] ">
 
-      {messages.map((message, index) => (
+      {Array.from(Array(15).keys()).map((item, index) => (
         <div className=" relative px-2" key={index}>
-          <button
+          <Link
+            href="/"
             className="group/item relative m-0 flex flex-col rounded-lg p-2 group-hover/edit:bg-red-500 hover:bg-third-clr"
-            onClick={() => addMessageId(message)}
           >
             <div className="relative flex h-full w-full flex-nowrap items-center justify-between overflow-hidden">
               {/* avatar */}
@@ -55,7 +24,7 @@ const Messages = () => {
                         <div className="relative h-0 pt-[100%]">
                           <div className="absolute inset-0 m-0 h-full w-full p-0">
                             <Image
-                              src={message.url}
+                              src="/images/avatar.jpg"
                               width={56}
                               height={56}
                               alt="user acvatar"
@@ -68,28 +37,30 @@ const Messages = () => {
                 </div>
               </div>
               {/* messages */}
-              <div className="flex min-w-0 max-w-full shrink grow basis-auto flex-col items-start">
-                <div className="relative flex w-full min-w-0 max-w-full shrink grow  basis-auto flex-col">
+              <div className="flex min-w-0 shrink grow basis-0 flex-col items-start">
+                <div className="relative flex min-w-0 max-w-full shrink grow basis-auto flex-col flex-wrap ">
                   {/* name */}
                   <div className="min-w-0 max-w-full break-words text-left leading-[1.33rem] text-primary-text">
                     <span className="relative block overflow-hidden text-ellipsis whitespace-nowrap">
-                      {message.name}
+                      BE Yeu
                     </span>
                   </div>
-                  <div className="h-2 w-full"></div>
+                  <div className="h-2"></div>
                   {/* last message */}
-                  <div className="min-h-4 flex w-full items-center text-[12px] text-primary-text">
-                    <span className="block pr-2">
-                      <span className="block  max-w-[200px]  overflow-hidden truncate">
+                  <div className="min-h-4 flex items-center text-[12px] text-primary-text">
+                    <span className="pr-2">
+                      <span className="relative block overflow-hidden text-ellipsis whitespace-nowrap">
                         {' '}
-                        {message.lastMessage}
+                        Hello e iu
                       </span>
                     </span>
 
                     <span>
                       <span aria-hidden="true"> · </span>
                     </span>
-                    <span className="whitespace-nowrap pl-2">51m</span>
+                    <span className="whitespace-nowrap pl-2">
+                      51m
+                    </span>
                   </div>
                 </div>
               </div>
@@ -113,7 +84,7 @@ const Messages = () => {
             {/* tool */}
 
             <div
-              className={clsx(
+              className={cn(
                 'group/edit invisible absolute right-[30px]  top-1/2   h-[32px] w-[32px]  -translate-y-1/2 rounded-full border border-gray-700 bg-hover-overlay opacity-0  transition-all duration-100 ease-fade-out group-hover/item:visible group-hover/item:opacity-100 hover:bg-fifth-clr',
               )}
             >
@@ -121,11 +92,11 @@ const Messages = () => {
                 <EllipsisHorizontalIcon className="h-5 w-5 text-blue-500 " />
               </div>
             </div>
-          </button>
+          </Link>
         </div>
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default Messages;
+export default Notification

@@ -1,7 +1,7 @@
 'use client'
-import { createConversation } from '@/actions/createConversation';
-import { sendMessage } from '@/actions/sendMessage';
-import { fetchMessages } from '@/actions/fetchMessages'; // Import the fetchMessages function
+import { createConversation } from '@/actions/conversation/createConversation';
+import { sendMessage } from '@/actions/message/sendMessage';
+import { fetchMessages } from '@/actions/message/fetchMessages'; // Import the fetchMessages function
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { redirect } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
@@ -35,8 +35,11 @@ function Conversation() {
   };
   
   const handleSendMessage = async () => {
-    await sendMessage(conversationId!, message, me?.id);
-    setMessage('');
+    await sendMessage(conversationId!, message, me?.id, userTwo);
+    const fetchedMessages = await fetchMessages(conversationId!);
+    
+    setMessages(fetchedMessages);
+    setMessage("")
   };
 
   return (
@@ -65,7 +68,9 @@ function Conversation() {
           <button onClick={handleSendMessage}>Send Message</button>
         </>
       )}
-
+      <div>Helo</div>
+      <div>Conversation Id : {conversationId}</div>
+      {JSON.stringify(messages)}
       {messages.length > 0 && (
         <>
           <h1 className='font-bold text-2xl'>Messages</h1>
