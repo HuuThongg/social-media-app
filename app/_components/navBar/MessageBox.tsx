@@ -13,8 +13,8 @@ const MessageBox = ({ messagePath = false }: MessageBoxProps) => {
   return (
     <div
       className={clsx(`flex flex-col  justify-between`, {
-        'h-[calc(100vh-56px-57px)]': !messagePath,
-        'h-[calc(100vh-56px)]': messagePath,
+        'h-[calc(100vh-58px-57px)]': !messagePath,
+        'h-[calc(100vh-58px)]': messagePath,
       })}
     >
       <div className="relative flex grow-0 flex-col justify-start overflow-hidden ">
