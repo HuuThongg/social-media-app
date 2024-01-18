@@ -7,9 +7,10 @@ import {
   useInfiniteQuery,
 } from '@tanstack/react-query'
 import { Skeleton } from "@/components/ui/skeleton"
-
+import { useInView } from 'react-intersection-observer'
 
 const Notification = () => {
+  const { ref, inView } = useInView()
   const {
     status,
     data,
@@ -33,20 +34,16 @@ const Notification = () => {
     maxPages: 3,
   })
   
+  React.useEffect(() => {
+    if (inView) {
+      fetchNextPage()
+    }
+  }, [fetchNextPage, inView])
+  
   return (
     <div className="flex max-h-[calc(100vh-90px-152px)] flex-col overflow-y-scroll scrollbar scrollbar-track-transparent scrollbar-thumb-fifth-clr scrollbar-thumb-rounded-md   scrollbar-w-3 hover:scrollbar-track-[#2c2d2f] ">
       {status === 'pending' ? (
-        <div className='relative  space-y-2 p-3'>
-          {Array.from(Array(4).keys()).map((_,i) => (
-            <div key={i} className="flex items-center space-x-4">
-              <Skeleton className="h-12 w-12 rounded-full" />
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-[250px]" />
-                <Skeleton className="h-4 w-[200px]" />
-              </div>
-            </div>
-          ))}
-        </div>
+        <SkeletonNotification length={4}/>
       ) : status === 'error' ? (
         <span>Error: {error.message}</span>
       ) : (
@@ -134,10 +131,22 @@ const Notification = () => {
                   <div className="flex h-full items-center justify-center drop-shadow-xl ">
                     <EllipsisHorizontalIcon className="h-5 w-5 text-blue-500 " />
                   </div>
+                  
                 </div>
               </Link>
             </div>
           ))}
+              <button
+                ref={ref}
+                onClick={() => fetchNextPage()}
+                disabled={!hasNextPage || isFetchingNextPage}
+              >
+                {isFetchingNextPage && hasNextPage
+                  ? (
+                    <SkeletonNotification length={2} />
+                  )
+                  : null}
+              </button>
         </>
       )}
     </div>
@@ -145,3 +154,20 @@ const Notification = () => {
 }
 
 export default Notification
+
+
+export const SkeletonNotification = ({ length }: { length: number }) => {
+  const getRandomWidth = () => {
+    return Math.floor(Math.random() * (250 - 150 + 1) + 150);
+  };
+  return (
+    <div className='relative  space-y-2 p-3'>
+      {Array.from(Array(length).keys()).map((_, i) => (
+        <div key={i} className="flex items-center space-x-4">
+          <Skeleton className="h-12 w-12 rounded-full flex items-center" />
+          <Skeleton style={{ width: `${getRandomWidth()}px` }} className={cn(`h-4 `)} /> {/* Fixed typo here */}
+        </div>
+      ))}
+    </div>
+  );
+};

@@ -56,6 +56,9 @@ export async function GET(request: NextRequest) {
 
   const nextId = 8;
   const previousId = 2;
-  await new Promise((resolve) => setTimeout(resolve,2000));
+  await new Promise((resolve) => setTimeout(resolve,500));
+
+
+  
   return Response.json({ data, nextId, previousId});
 }

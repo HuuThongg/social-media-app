@@ -36,14 +36,7 @@ const WindowChat = () => {
     [],
   );
   const size = useWindowSize();
-  const [text, setText] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
   const [isShownChatBoxOptions, setIsShownChatBoxOptions] = useState(false);
-  const onChangeInputText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const inputValue = e.target.value;
-    setIsTyping(inputValue.length > 0);
-    setText(inputValue);
-  };
 
   let activeMessageField = messageField
     .filter((message) => message.isOpen === true)

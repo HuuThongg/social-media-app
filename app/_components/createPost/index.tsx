@@ -34,7 +34,6 @@ import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { ChevronDownIcon } from 'lucide-react';
 import createPost from '@/actions/post/createPost';
 import { UserButton } from '@/components/auth/user-button';
 

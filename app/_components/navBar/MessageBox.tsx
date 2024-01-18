@@ -1,12 +1,22 @@
+'use client'
 import React from 'react'
 import Messages from './Messages'
 import Link from 'next/link'
 import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid'
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
-
-const MessageBox = () => {
+import { cn } from '@/lib/utils'
+import clsx from 'clsx'
+interface MessageBoxProps {
+  messagePath?: boolean;
+}
+const MessageBox = ({ messagePath = false}:  MessageBoxProps ) => {
   return (
-    <div className="flex flex-col ">
+    <div className={clsx(`flex flex-col  justify-between`,
+    {
+      
+      'h-[calc(100vh-56px-57px)]': !messagePath,
+      'h-[calc(100vh-56px)]': messagePath,
+    })}>
       <div className="relative flex grow-0 flex-col justify-start overflow-hidden ">
         <div className="relative flex shrink grow flex-col overflow-hidden ">
           <div>
@@ -78,16 +88,21 @@ const MessageBox = () => {
           <Messages />
         </div>
       </div>
-      <div className="pointer-auto  w-full justify-end  border-t border-slate-700  bg-transparent py-[16px] shrink-0">
+      {messagePath === false ?  (
+        <div className="pointer-auto  w-full   border-t border-slate-700  bg-transparent py-[16px] shrink-0">
         <span className="mx-auto block w-full text-center text-xs">
           <Link
-            href="/"
+            href="/messages"
             className="inline   w-fit  cursor-pointer text-base font-semibold leading-6 text-blue-link hover:underline"
           >
             See all In Messenger
           </Link>
         </span>
       </div>
+      ) : null
+      
+      }
+      
     </div>
   )
 }

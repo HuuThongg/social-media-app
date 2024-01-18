@@ -8,18 +8,17 @@ import { useLocalStorage } from '@/components/hooks/useLocalStorage';
 import type { Message, MessageBox } from '../windowChat/WindowChat';
 import {useInfiniteQuery,} from '@tanstack/react-query'
 import { Skeleton } from '@/components/ui/skeleton';
-// interface Message {
-//   id: number;
-//   name: string;
-//   url: string;
-//   seen: boolean;
-//   lastMessage: string;
-// }
-// interface MessageBox extends Message{
-//   isOpen: boolean;
-// }
-const Messages = () => {
+import { useInView } from 'react-intersection-observer'
+import React from 'react';
+import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation'
 
+const Messages = () => {
+  const { ref, inView } = useInView()
+  const router = useRouter()
+  const pathname = usePathname();
+  const isHasMessagePath = pathname.includes('/messages')
+  
   const {
     status,
     data,
@@ -48,10 +47,8 @@ const Messages = () => {
     'messageIds',
     [],
   );
-  console.log("object", messageIds);
   const addMessageId = (message: Message) => {
-    console.log("- aDD  ------------------------------------------------------");
-
+    
     // Check if the message already exists in the messageIds array
     const messageExists = messageIds.some((msg) => msg.id === message.id);
     if (!messageExists) {
@@ -62,20 +59,16 @@ const Messages = () => {
     }
   };
 
+  React.useEffect(() => {
+    if (inView) {
+      fetchNextPage()
+    }
+  }, [fetchNextPage, inView])
+  
   return (
     <div className="flex max-h-[calc(100vh-90px-152px)] flex-col overflow-y-scroll overflow-x-hidden   scrollbar scrollbar-track-transparent scrollbar-thumb-fifth-clr scrollbar-thumb-rounded-md   scrollbar-w-3 hover:scrollbar-track-[#2c2d2f]">
       {status === 'pending' ? (
-        <div className='relative  space-y-2 p-3'>
-          {Array.from(Array(4).keys()).map((_, i) => (
-            <div key={i} className="flex items-center space-x-4">
-              <Skeleton className="h-12 w-12 rounded-full" />
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-[250px]" />
-                <Skeleton className="h-4 w-[200px]" />
-              </div>
-            </div>
-          ))}
-        </div>
+          <SkeletonMessageChat length={4}/>
       ) : status === 'error' ? (
         <span>Error: {error.message}</span>
       ) : (
@@ -83,8 +76,14 @@ const Messages = () => {
           {messages.map((message, index) => (
             <div className=" relative px-2" key={index}>
               <button
-                className="group/item relative m-0 flex flex-col rounded-lg p-2 group-hover/edit:bg-red-500 hover:bg-third-clr"
-                onClick={() => addMessageId(message)}
+                className="group/item relative m-0 flex flex-col rounded-lg p-2 group-hover/edit:bg-red-500 hover:bg-third-clr w-full"
+                onClick={() => {
+                  if (isHasMessagePath) {
+                    router.push(`/messages/${message.id}`)
+                  } else {
+                    addMessageId(message)
+                  }
+                }}
               >
                 <div className="relative flex h-full w-full flex-nowrap items-center justify-between overflow-hidden">
                   {/* avatar */}
@@ -165,11 +164,40 @@ const Messages = () => {
               </button>
             </div>
           ))}
+          <button
+            ref={ref}
+            onClick={() => fetchNextPage()}
+            disabled={!hasNextPage || isFetchingNextPage}
+          >
+            {isFetchingNextPage && hasNextPage
+              ? (
+                <SkeletonMessageChat length={2} />
+              )
+              : null}
+          </button>
         </>
       )}
-      
     </div>
   );
 };
 
 export default Messages;
+
+export const SkeletonMessageChat = ({length}:{length:number}) => {
+  const getRandomWidth = () => {
+    return Math.floor(Math.random() * (250 - 150 + 1) + 150);
+  };
+  return (
+    <div className='relative  space-y-2 p-3'>
+      {Array.from(Array(length).keys()).map((_, i) => (
+        <div key={i} className="flex items-center space-x-4">
+          <Skeleton className="h-12 w-12 rounded-full" />
+          <div className="space-y-2">
+            <Skeleton style={{ width: `${getRandomWidth()}px` }} className="h-4 " />
+            <Skeleton style={{ width: `${getRandomWidth()}px` }} className="h-4 " />
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}

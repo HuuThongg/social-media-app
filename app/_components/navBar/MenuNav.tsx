@@ -19,9 +19,10 @@ import { FaUser } from 'react-icons/fa';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import Notification from './Notification';
 import MessageBox from './MessageBox';
-
+import { usePathname } from 'next/navigation';
 const MenuNav = () => {
-  // const router = useRouter();
+  const pathname = usePathname();
+  const isHasMessagePath = pathname.includes('/messages')
   const chatsHandler = () => {
     console.log('chatsHandler');
   };
@@ -62,7 +63,10 @@ const MenuNav = () => {
           <Popover.Panel>
             <div
               className={clsx(
-                ' absolute left-0 top-0  z-[2] -translate-x-[220px] translate-y-[48px] duration-200 ',
+                ' absolute left-0 top-0  z-[2] -translate-x-[220px] translate-y-[48px] duration-200 ', {
+                '-left-10': isHasMessagePath,
+                '-left-0': !isHasMessagePath,
+              }
               )}
             >
               <div className="mr-[5px] mt-[5px]  ">
@@ -283,7 +287,12 @@ const MenuNav = () => {
             </div>
           </Popover.Button>
 
-          <Popover.Panel className="absolute left-0 top-0  z-[2] duration-200 ui-open:-translate-x-[220px] ui-open:translate-y-[48px]">
+          <Popover.Panel as="div" className={clsx("absolute  top-0  z-[2] duration-200 ui-open:-translate-x-[220px] ui-open:translate-y-[48px]",
+            {
+              '-left-10': isHasMessagePath,
+              '-left-0': !isHasMessagePath,
+            }
+          )}>
             <div className="mr-[5px] mt-[5px] ">
               <div className="overflow-hidden rounded-lg bg-secondary-clr shadow-md  shadow-zinc-600/50 ">
                 <div className="max-w-[calc(100vw-24px])] flex max-h-[calc(100vh-90px)] w-[360px] flex-col  ">
@@ -350,45 +359,47 @@ const MenuNav = () => {
             </div>
           </Popover.Panel>
         </Popover>
-        <Popover>
-          <Popover.Button className="relative flex h-full items-center justify-center">
-            <div
-              className={clsx(
-                'group/noti m-0 flex h-[40px] w-[40px] cursor-pointer items-center justify-center overflow-hidden   rounded-full bg-secondary-btn-bg p-0 ui-open:bg-blue-btb-bg-acitve ui-open:bg-primary-deemphasized-bt-bg hover:bg-primary-icon-clr-hover  ui-open:hover:bg-primary-deemphasized-bt-hover active:scale-95 active:bg-primary-icon-clr-active ',
-              )}
-              onClick={chatsHandler}
-            >
-              <ChatBubbleBottomCenterIcon
-                className={clsx(
-                  'h-5 w-5 text-primary-btn-icon ui-open:fill-blue-500 ',
-                )}
-              />
+        {!isHasMessagePath ? (
+          <Popover>
+            <Popover.Button className="relative flex h-full items-center justify-center">
               <div
                 className={clsx(
-                  'invisible absolute -right-3 top-full z-[5] mt-1 h-auto w-fit origin-top-left cursor-none select-none rounded-lg bg-primary-text px-3 py-2 text-[12px] tracking-tight text-black opacity-0 shadow-2xl shadow-cyan-500/50 transition-all duration-300 group-hover/noti:visible group-hover/noti:opacity-100',
+                  'group/noti m-0 flex h-[40px] w-[40px] cursor-pointer items-center justify-center overflow-hidden   rounded-full bg-secondary-btn-bg p-0 ui-open:bg-blue-btb-bg-acitve ui-open:bg-primary-deemphasized-bt-bg hover:bg-primary-icon-clr-hover  ui-open:hover:bg-primary-deemphasized-bt-hover active:scale-95 active:bg-primary-icon-clr-active ',
                 )}
+                onClick={chatsHandler}
               >
-                Messenger
-              </div>
-            </div>
-            <div className="absolute -top-1 right-0 flex h-4 w-4 items-center justify-center rounded-full bg-red-500">
-              <span className="text-[10px] font-semibold  text-white">99</span>
-            </div>
-          </Popover.Button>
-          <Popover.Panel
-            as="div"
-            className="absolute left-0 top-0  z-[2] -translate-x-[220px] translate-y-[48px] duration-200"
-          >
-            <div className="mr-[5px] mt-[5px] ">
-              <div className="xl overflow-hidden rounded-lg bg-secondary-clr shadow-md  shadow-zinc-600/50 ">
-                <div className="max-w-[calc(100vw-24px])] flex h-full max-h-[calc(100vh-190px)] w-[360px]  flex-col">
-                  {/* chats */}
-                  <MessageBox/>
+                <ChatBubbleBottomCenterIcon
+                  className={clsx(
+                    'h-5 w-5 text-primary-btn-icon ui-open:fill-blue-500 ',
+                  )}
+                />
+                <div
+                  className={clsx(
+                    'invisible absolute -right-3 top-full z-[5] mt-1 h-auto w-fit origin-top-left cursor-none select-none rounded-lg bg-primary-text px-3 py-2 text-[12px] tracking-tight text-black opacity-0 shadow-2xl shadow-cyan-500/50 transition-all duration-300 group-hover/noti:visible group-hover/noti:opacity-100',
+                  )}
+                >
+                  Messenger
                 </div>
               </div>
-            </div>
-          </Popover.Panel>
-        </Popover>
+              <div className="absolute -top-1 right-0 flex h-4 w-4 items-center justify-center rounded-full bg-red-500">
+                <span className="text-[10px] font-semibold  text-white">99</span>
+              </div>
+            </Popover.Button>
+            <Popover.Panel
+              as="div"
+              className="absolute left-0 top-0  z-[2] -translate-x-[220px] translate-y-[48px] duration-200"
+            >
+              <div className="mr-[5px] mt-[5px] ">
+                <div className="xl overflow-hidden rounded-lg bg-secondary-clr shadow-md  shadow-zinc-600/50 ">
+                  <div className="max-w-[calc(100vw-24px])] flex h-full max-h-[calc(100vh-90px)] w-[360px]  flex-col">
+                    {/* chats */}
+                    <MessageBox/>
+                  </div>
+                </div>
+              </div>
+            </Popover.Panel>
+          </Popover>
+        ): null}
       </Popover.Group>
       {/* chat and notif pops up  */}
     </div>

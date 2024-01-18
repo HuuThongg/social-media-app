@@ -7,7 +7,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
     <TanstackProvider>
       <SocketProvider>
         {children}
-      </SocketProvider>;
+      </SocketProvider>
     </TanstackProvider>
   ) 
 }
