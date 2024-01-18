@@ -1,4 +1,10 @@
-import { Feedback, HelpSupport, LogOut, Moon, Settings } from '@/components/icon'
+import {
+  Feedback,
+  HelpSupport,
+  LogOut,
+  Moon,
+  Settings,
+} from '@/components/icon';
 export const profileToolkit = [
   {
     name: 'Settings & privacy',
@@ -42,7 +48,7 @@ export const settingsAndPrivacy = [
     href: '##',
     icon: Settings,
   },
-]
+];
 export const displayAndAccessibility = [
   {
     name: 'Keyboard',
@@ -54,7 +60,7 @@ export const displayAndAccessibility = [
     href: '##',
     icon: Settings,
   },
-]
+];
 
 const contacts = [
   {

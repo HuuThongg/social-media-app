@@ -1,16 +1,14 @@
-import { cn } from '@/lib/utils'
-import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid'
-import Image from 'next/image'
-import Link from 'next/link'
-import React from 'react'
-import {
-  useInfiniteQuery,
-} from '@tanstack/react-query'
-import { Skeleton } from "@/components/ui/skeleton"
-import { useInView } from 'react-intersection-observer'
+import { cn } from '@/lib/utils';
+import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid';
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useInView } from 'react-intersection-observer';
 
 const Notification = () => {
-  const { ref, inView } = useInView()
+  const { ref, inView } = useInView();
   const {
     status,
     data,
@@ -25,25 +23,25 @@ const Notification = () => {
   } = useInfiniteQuery({
     queryKey: ['projects'],
     queryFn: async ({ pageParam }) => {
-      const res = await fetch('/api/notification?cursor=' + pageParam)
+      const res = await fetch('/api/notification?cursor=' + pageParam);
       return res.json();
     },
     initialPageParam: 0,
     getPreviousPageParam: (firstPage) => firstPage.previousId ?? undefined,
     getNextPageParam: (lastPage) => lastPage.nextId ?? undefined,
     maxPages: 3,
-  })
-  
+  });
+
   React.useEffect(() => {
     if (inView) {
-      fetchNextPage()
+      fetchNextPage();
     }
-  }, [fetchNextPage, inView])
-  
+  }, [fetchNextPage, inView]);
+
   return (
     <div className="flex max-h-[calc(100vh-90px-152px)] flex-col overflow-y-scroll scrollbar scrollbar-track-transparent scrollbar-thumb-fifth-clr scrollbar-thumb-rounded-md   scrollbar-w-3 hover:scrollbar-track-[#2c2d2f] ">
       {status === 'pending' ? (
-        <SkeletonNotification length={4}/>
+        <SkeletonNotification length={4} />
       ) : status === 'error' ? (
         <span>Error: {error.message}</span>
       ) : (
@@ -87,7 +85,7 @@ const Notification = () => {
                       </div>
                       <div className="h-2"></div>
                       {/* last message */}
-                      <div className="min-h-4 flex items-center text-[12px] text-primary-text">
+                      <div className="flex min-h-4 items-center text-[12px] text-primary-text">
                         <span className="pr-2">
                           <span className="relative block overflow-hidden text-ellipsis whitespace-nowrap">
                             {' '}
@@ -98,9 +96,7 @@ const Notification = () => {
                         <span>
                           <span aria-hidden="true"> · </span>
                         </span>
-                        <span className="whitespace-nowrap pl-2">
-                          51m
-                        </span>
+                        <span className="whitespace-nowrap pl-2">51m</span>
                       </div>
                     </div>
                   </div>
@@ -125,47 +121,47 @@ const Notification = () => {
 
                 <div
                   className={cn(
-                    'group/edit invisible absolute right-[30px]  top-1/2   h-[32px] w-[32px]  -translate-y-1/2 rounded-full border border-gray-700 bg-hover-overlay opacity-0  transition-all duration-100 ease-fade-out group-hover/item:visible group-hover/item:opacity-100 hover:bg-fifth-clr',
+                    'group/edit ease-fade-out invisible absolute  right-[30px]   top-1/2 h-[32px]  w-[32px] -translate-y-1/2 rounded-full border border-gray-700 bg-hover-overlay  opacity-0 transition-all duration-100 group-hover/item:visible group-hover/item:opacity-100 hover:bg-fifth-clr',
                   )}
                 >
                   <div className="flex h-full items-center justify-center drop-shadow-xl ">
                     <EllipsisHorizontalIcon className="h-5 w-5 text-blue-500 " />
                   </div>
-                  
                 </div>
               </Link>
             </div>
           ))}
-              <button
-                ref={ref}
-                onClick={() => fetchNextPage()}
-                disabled={!hasNextPage || isFetchingNextPage}
-              >
-                {isFetchingNextPage && hasNextPage
-                  ? (
-                    <SkeletonNotification length={2} />
-                  )
-                  : null}
-              </button>
+          <button
+            ref={ref}
+            onClick={() => fetchNextPage()}
+            disabled={!hasNextPage || isFetchingNextPage}
+          >
+            {isFetchingNextPage && hasNextPage ? (
+              <SkeletonNotification length={2} />
+            ) : null}
+          </button>
         </>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Notification
-
+export default Notification;
 
 export const SkeletonNotification = ({ length }: { length: number }) => {
   const getRandomWidth = () => {
     return Math.floor(Math.random() * (250 - 150 + 1) + 150);
   };
   return (
-    <div className='relative  space-y-2 p-3'>
+    <div className="relative  space-y-2 p-3">
       {Array.from(Array(length).keys()).map((_, i) => (
         <div key={i} className="flex items-center space-x-4">
-          <Skeleton className="h-12 w-12 rounded-full flex items-center" />
-          <Skeleton style={{ width: `${getRandomWidth()}px` }} className={cn(`h-4 `)} /> {/* Fixed typo here */}
+          <Skeleton className="flex h-12 w-12 items-center rounded-full" />
+          <Skeleton
+            style={{ width: `${getRandomWidth()}px` }}
+            className={cn(`h-4 `)}
+          />{' '}
+          {/* Fixed typo here */}
         </div>
       ))}
     </div>

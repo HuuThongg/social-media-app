@@ -1,29 +1,22 @@
-"use client";
+'use client';
 
-import { useCurrentRole } from "@/hooks/use-current-role";
-import { FormError } from "@/components/form-error";
-import { RoleEnumType } from "@/drizzle/schema";
+import { useCurrentRole } from '@/hooks/use-current-role';
+import { FormError } from '@/components/form-error';
+import { RoleEnumType } from '@/drizzle/schema';
 
 interface RoleGateProps {
   children: React.ReactNode;
-  allowedRole: "ADMIN" | "USER";
-};
+  allowedRole: 'ADMIN' | 'USER';
+}
 
-export const RoleGate = ({
-  children,
-  allowedRole,
-}: RoleGateProps) => {
+export const RoleGate = ({ children, allowedRole }: RoleGateProps) => {
   const role = useCurrentRole();
 
   if (role !== allowedRole) {
     return (
       <FormError message="You do not have permission to view this content!" />
-    )
+    );
   }
 
-  return (
-    <>
-      {children}
-    </>
-  );
+  return <>{children}</>;
 };

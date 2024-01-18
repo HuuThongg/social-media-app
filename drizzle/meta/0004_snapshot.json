@@ -82,12 +82,8 @@
           "tableFrom": "account",
           "tableTo": "user",
           "schemaTo": "public",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -95,10 +91,7 @@
       "compositePrimaryKeys": {
         "account_provider_providerAccountId_pk": {
           "name": "account_provider_providerAccountId_pk",
-          "columns": [
-            "provider",
-            "providerAccountId"
-          ]
+          "columns": ["provider", "providerAccountId"]
         }
       },
       "uniqueConstraints": {}
@@ -208,12 +201,8 @@
           "tableFrom": "conversation",
           "tableTo": "user",
           "schemaTo": "public",
-          "columnsFrom": [
-            "userOne"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userOne"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -222,12 +211,8 @@
           "tableFrom": "conversation",
           "tableTo": "user",
           "schemaTo": "public",
-          "columnsFrom": [
-            "userTwo"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userTwo"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -284,12 +269,8 @@
           "tableFrom": "message",
           "tableTo": "user",
           "schemaTo": "public",
-          "columnsFrom": [
-            "senderId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["senderId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -321,12 +302,8 @@
           "tableFrom": "postLike",
           "tableTo": "post",
           "schemaTo": "public",
-          "columnsFrom": [
-            "id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -335,12 +312,8 @@
           "tableFrom": "postLike",
           "tableTo": "user",
           "schemaTo": "public",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -372,12 +345,8 @@
           "tableFrom": "post_to_img",
           "tableTo": "post",
           "schemaTo": "public",
-          "columnsFrom": [
-            "id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -455,12 +424,8 @@
           "tableFrom": "userInfo",
           "tableTo": "user",
           "schemaTo": "public",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -529,9 +494,7 @@
         "user_email_unique": {
           "name": "user_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       }
     },
@@ -569,10 +532,7 @@
       "compositePrimaryKeys": {
         "verificationToken_email_token_pk": {
           "name": "verificationToken_email_token_pk",
-          "columns": [
-            "email",
-            "token"
-          ]
+          "columns": ["email", "token"]
         }
       },
       "uniqueConstraints": {}

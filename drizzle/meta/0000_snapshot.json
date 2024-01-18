@@ -40,12 +40,8 @@
           "tableFrom": "cities",
           "tableTo": "countries",
           "schemaTo": "public",
-          "columnsFrom": [
-            "country_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["country_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -73,9 +69,7 @@
       "indexes": {
         "name_idx": {
           "name": "name_idx",
-          "columns": [
-            "name"
-          ],
+          "columns": ["name"],
           "isUnique": true
         }
       },

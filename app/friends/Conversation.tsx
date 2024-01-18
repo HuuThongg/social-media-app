@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { createConversation } from '@/actions/conversation/createConversation';
 import { sendMessage } from '@/actions/message/sendMessage';
 import { fetchMessages } from '@/actions/message/fetchMessages'; // Import the fetchMessages function
@@ -33,13 +33,13 @@ function Conversation() {
     const id = await createConversation(userOne, userTwo);
     setConversationId(id);
   };
-  
+
   const handleSendMessage = async () => {
     await sendMessage(conversationId!, message, me?.id, userTwo);
     const fetchedMessages = await fetchMessages(conversationId!);
-    
+
     setMessages(fetchedMessages);
-    setMessage("")
+    setMessage('');
   };
 
   return (
@@ -73,7 +73,7 @@ function Conversation() {
       {JSON.stringify(messages)}
       {messages.length > 0 && (
         <>
-          <h1 className='font-bold text-2xl'>Messages</h1>
+          <h1 className="text-2xl font-bold">Messages</h1>
           <ul>
             {messages.map((msg, index) => (
               <li key={index}>{msg.content}</li>

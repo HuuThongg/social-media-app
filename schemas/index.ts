@@ -1,13 +1,11 @@
-import * as z from "zod";
-import { pgEnum, pgTable } from "drizzle-orm/pg-core";
-import { RoleEnumType } from "@/drizzle/schema";
-
-
+import * as z from 'zod';
+import { pgEnum, pgTable } from 'drizzle-orm/pg-core';
+import { RoleEnumType } from '@/drizzle/schema';
 
 export const SettingsSchema = z
   .object({
     name: z.optional(z.string()),
-    role: z.enum([RoleEnumType.USER,RoleEnumType.ADMIN]),
+    role: z.enum([RoleEnumType.USER, RoleEnumType.ADMIN]),
     email: z.optional(z.string().email()),
     password: z.optional(z.string().min(6)),
     newPassword: z.optional(z.string().min(6)),
@@ -20,9 +18,9 @@ export const SettingsSchema = z
       return true;
     },
     {
-      message: "New password is required!",
-      path: ["newPassword"],
-    }
+      message: 'New password is required!',
+      path: ['newPassword'],
+    },
   )
   .refine(
     (data) => {
@@ -32,40 +30,40 @@ export const SettingsSchema = z
       return true;
     },
     {
-      message: "Password is required!",
-      path: ["password"],
-    }
+      message: 'Password is required!',
+      path: ['password'],
+    },
   );
 
-  export const NewPasswordSchema = z.object({
-    password: z.string().min(6,{
-      message: "Minimum of 6 characters required",
-    }),
-  })
+export const NewPasswordSchema = z.object({
+  password: z.string().min(6, {
+    message: 'Minimum of 6 characters required',
+  }),
+});
 export const ResetSchema = z.object({
   email: z.string().email({
-    message: "Email is required",
+    message: 'Email is required',
   }),
 });
 
 export const LoginSchema = z.object({
   email: z.string().email({
-    message: "Email is required",
+    message: 'Email is required',
   }),
   password: z.string().min(1, {
-    message: "Password is required",
+    message: 'Password is required',
   }),
   code: z.optional(z.string()),
 });
 
 export const RegisterSchema = z.object({
   email: z.string().email({
-    message: "Email is required",
+    message: 'Email is required',
   }),
   password: z.string().min(6, {
-    message: "Minimum 6 characters required",
+    message: 'Minimum 6 characters required',
   }),
   name: z.string().min(1, {
-    message: "Name is required",
+    message: 'Name is required',
   }),
 });

@@ -64,7 +64,7 @@ export default function Page() {
                   </Link>
                   {/* edit cover photo */}
                   <div className="absolute bottom-0 left-0  w-full ">
-                    <div className="relative flex justify-end bg-gradient-always-dark-gradient  px-5">
+                    <div className="bg-gradient-always-dark-gradient relative flex justify-end  px-5">
                       <div className="-m-[-6px]   flex justify-end px-3  py-4 ">
                         <div className="flex flex-col p-[6px] ">
                           <div className="mb-4">
@@ -263,7 +263,7 @@ export default function Page() {
                     <div className="relative  z-0 flex overflow-hidden">
                       <div
                         className={clsx(
-                          `transition-transform ease-quick-move-in `,
+                          `ease-quick-move-in transition-transform `,
                           {
                             'translate-y-0': !isFlip,
                             '-translate-y-full': isFlip,
@@ -273,7 +273,7 @@ export default function Page() {
                         {/* first nav */}
                         <div
                           className={clsx(
-                            `visible relative z-0 flex min-h-[60px] flex-nowrap justify-between opacity-100 transition-opacity-visible  duration-200-1000 ease-fade-out   `,
+                            `transition-opacity-visible duration-200-1000 ease-fade-out visible relative z-0 flex min-h-[60px] flex-nowrap  justify-between opacity-100   `,
                             {
                               'visible opacity-100': !isFlip,
                               'invisible opacity-0': isFlip,
@@ -288,10 +288,10 @@ export default function Page() {
                                 className="group/tab relative m-0 box-border inline-block rounded-md p-0"
                                 role="tab"
                               >
-                                <div className="min-h-4 relative flex h-[60px] shrink-0 items-center justify-center px-4">
+                                <div className="relative flex h-[60px] min-h-4 shrink-0 items-center justify-center px-4">
                                   <span
                                     className={clsx(
-                                      `block min-w-0 max-w-full break-before-all text-md  font-semibold `,
+                                      `text-md block min-w-0 max-w-full break-before-all  font-semibold `,
                                       {
                                         'text-secondary-text': !item.active,
                                         'text-accent': item.active,
@@ -309,13 +309,11 @@ export default function Page() {
                                 <div className="absolute  inset-x-0 inset-y-1 rounded-md bg-hover-overlay opacity-0 group-hover/tab:opacity-100"></div>
                               </Link>
                             ))}
-                            <div
-                              className="group/tab relative m-0 inline-block  cursor-pointer rounded-md p-0 "
-                            >
-                              <div className="min-h-4 relative flex h-[60px] shrink-0 items-center justify-center gap-x-2 px-4">
+                            <div className="group/tab relative m-0 inline-block  cursor-pointer rounded-md p-0 ">
+                              <div className="relative flex h-[60px] min-h-4 shrink-0 items-center justify-center gap-x-2 px-4">
                                 <span
                                   className={clsx(
-                                    `block min-w-0 max-w-full break-before-all text-md  font-semibold text-secondary-text`,
+                                    `text-md block min-w-0 max-w-full break-before-all  font-semibold text-secondary-text`,
                                   )}
                                 >
                                   More
@@ -407,7 +405,7 @@ export default function Page() {
                             <div className="relative flex flex-col px-4 pt-4">
                               <div className="flex min-w-0 shrink grow flex-col items-center  ">
                                 <div className="flex flex-col ">
-                                  <span className="block min-w-0 max-w-full  break-before-all text-md font-normal text-primary-text ">
+                                  <span className="text-md block min-w-0  max-w-full break-before-all font-normal text-primary-text ">
                                     <span>
                                       There are no gains without pains
                                     </span>
@@ -416,7 +414,7 @@ export default function Page() {
                                 <div className="mt-4 w-full">
                                   <div className="flex h-[36px] w-full flex-col items-center justify-center  ">
                                     <div className="flex h-full w-full  flex-col items-center justify-center rounded-md bg-third-clr active:scale-x-[0.96] active:scale-y-[0.98] active:bg-fourth-clr">
-                                      <button className="block w-full min-w-0 max-w-full  break-before-all  text-md font-semibold text-primary-text ">
+                                      <button className="text-md block w-full min-w-0  max-w-full  break-before-all font-semibold text-primary-text ">
                                         Edit Bio
                                       </button>
                                     </div>
@@ -430,7 +428,7 @@ export default function Page() {
                                 <div className="mt-4 w-full">
                                   <div className="flex h-[36px] w-full flex-col items-center justify-center  ">
                                     <div className="flex h-full w-full  flex-col items-center justify-center rounded-md bg-third-clr active:scale-x-[0.96] active:scale-y-[0.98] active:bg-fourth-clr">
-                                      <button className="block w-full min-w-0 max-w-full  break-before-all  text-md font-semibold text-primary-text ">
+                                      <button className="text-md block w-full min-w-0  max-w-full  break-before-all font-semibold text-primary-text ">
                                         Edit details
                                       </button>
                                     </div>
@@ -444,7 +442,7 @@ export default function Page() {
                                 <div className="mt-4 w-full">
                                   <div className="flex h-[36px] w-full flex-col items-center justify-center  ">
                                     <div className="flex h-full w-full  flex-col items-center justify-center rounded-md bg-third-clr active:scale-x-[0.96] active:scale-y-[0.98] active:bg-fourth-clr">
-                                      <button className="block w-full min-w-0 max-w-full  break-before-all  text-md font-semibold text-primary-text ">
+                                      <button className="text-md block w-full min-w-0  max-w-full  break-before-all font-semibold text-primary-text ">
                                         Add Hobbies
                                       </button>
                                     </div>
@@ -465,7 +463,7 @@ export default function Page() {
                                     <div className="mt-4 w-full">
                                       <div className="flex h-[36px] w-full flex-col items-center justify-center  ">
                                         <div className="flex h-full w-full  flex-col items-center justify-center rounded-md bg-third-clr active:scale-x-[0.96] active:scale-y-[0.98] active:bg-fourth-clr">
-                                          <button className="block w-full min-w-0 max-w-full  break-before-all  text-md font-semibold text-primary-text ">
+                                          <button className="text-md block w-full min-w-0  max-w-full  break-before-all font-semibold text-primary-text ">
                                             Edit Featured
                                           </button>
                                         </div>

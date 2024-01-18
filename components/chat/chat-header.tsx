@@ -3,25 +3,28 @@ import Link from 'next/link';
 import Image from 'next/image';
 import {
   PhoneIcon,
-  XMarkIcon,
   VideoCameraIcon,
-  MinusIcon,
 } from '@heroicons/react/24/outline';
 
 import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { ChevronUpIcon, MagnifyingGlassIcon, ChevronDownIcon, DividerVerticalIcon, ThickArrowLeftIcon, ThickArrowRightIcon } from '@radix-ui/react-icons';
+import {
+  ChevronUpIcon,
+  MagnifyingGlassIcon,
+  ChevronDownIcon,
+  DividerVerticalIcon,
+  ThickArrowLeftIcon,
+  ThickArrowRightIcon,
+} from '@radix-ui/react-icons';
 import { useAtom } from 'jotai';
 import { expandChatAtom } from '@/jotai';
 
-
-
-export const ChatHeader = () =>{
+export const ChatHeader = () => {
   const [search, setSearch] = useState('');
-  const [isExpandChat, setIsExpandChat] = useAtom(expandChatAtom)
+  const [isExpandChat, setIsExpandChat] = useAtom(expandChatAtom);
 
   return (
-    <div className='flex flex-col shrink-0'>
+    <div className="flex shrink-0 flex-col">
       <div className="relative z-[2] box-content flex h-8 shrink-0 select-none  items-center justify-between  overflow-hidden rounded-t-lg p-2 shadow-md">
         <div className="relative z-0  -ml-[6px] box-border flex   shrink grow  basis-0 flex-nowrap items-center">
           <div className="flex">
@@ -41,7 +44,7 @@ export const ChatHeader = () =>{
                           <div className="flex aspect-square h-8 overflow-hidden rounded-full">
                             <Image
                               className=" h-full w-full object-cover"
-                              src={""}
+                              src={''}
                               alt="avatar"
                               width={32}
                               height={32}
@@ -95,22 +98,25 @@ export const ChatHeader = () =>{
               }}
             >
               {isExpandChat ? (
-                <ThickArrowRightIcon className=" w-5 h-5 text-disabled-icon" />
-              ): (
-                  <ThickArrowLeftIcon className=" w-5 h-5 text-disabled-icon" />
+                <ThickArrowRightIcon className=" h-5 w-5 text-disabled-icon" />
+              ) : (
+                <ThickArrowLeftIcon className=" h-5 w-5 text-disabled-icon" />
               )}
             </div>
           </li>
         </ul>
       </div>
-      <div className="relative z-[2] box-content flex h-8 shrink-0 select-none min-w-0  items-center justify-between  overflow-hidden rounded-t-lg p-2 shadow-md">
+      <div className="relative z-[2] box-content flex h-8 min-w-0 shrink-0 select-none  items-center justify-between  overflow-hidden rounded-t-lg p-2 shadow-md">
         {/* search */}
-        <div className='flex max-w-full shrink flex-col grow p-[6px] relative'>
-          <label htmlFor="" className={cn(
-            'relative flex min-h-[40px] w-full min-w-[40px] items-stretch rounded-[50px] bg-third-clr align-middle text-xs font-semibold outline-none hover:bg-fourth-clr',
-          )}
+        <div className="relative flex max-w-full shrink grow flex-col p-[6px]">
+          <label
+            htmlFor=""
+            className={cn(
+              'relative flex min-h-[40px] w-full min-w-[40px] items-stretch rounded-[50px] bg-third-clr align-middle text-xs font-semibold outline-none hover:bg-fourth-clr',
+            )}
             aria-label="choose a search"
-            aria-describedby="search input label">
+            aria-describedby="search input label"
+          >
             <span className="pointer-events-none flex items-center whitespace-nowrap pl-3 ease-linear">
               <MagnifyingGlassIcon className="h-4 w-4 text-primary-text" />
             </span>
@@ -118,33 +124,33 @@ export const ChatHeader = () =>{
               type="text"
               className={cn(
                 `h-[40px] w-full shrink grow basis-auto cursor-text rounded-[50px]  bg-transparent px-2 pb-[9px] pt-[7px] text-left text-[15px]  font-normal text-primary-text placeholder:text-secondary-text`,
-                
               )}
               placeholder="Search"
               value={search}
-              onChange={(e)=>{setSearch(e.currentTarget.value)}}
+              onChange={(e) => {
+                setSearch(e.currentTarget.value);
+              }}
             />
           </label>
         </div>
         {/* down up  */}
-        <div className='p-[6px] flex flex-col justify-center items-center'>
-          <span className='aspect-square cursor-pointer overflow-hidden rounded-full bg-third-clr  hover:bg-third-clr p-2'>
-            <ChevronUpIcon className="text-white w-4 h-4" />
+        <div className="flex flex-col items-center justify-center p-[6px]">
+          <span className="aspect-square cursor-pointer overflow-hidden rounded-full bg-third-clr  p-2 hover:bg-third-clr">
+            <ChevronUpIcon className="h-4 w-4 text-white" />
           </span>
         </div>
-        <div className='p-[6px] flex flex-col justify-center items-center'>
-          <span className='aspect-square cursor-pointer overflow-hidden rounded-full bg-third-clr  hover:bg-third-clr p-2'>
-            <ChevronDownIcon className="text-white w-4 h-4" />
+        <div className="flex flex-col items-center justify-center p-[6px]">
+          <span className="aspect-square cursor-pointer overflow-hidden rounded-full bg-third-clr  p-2 hover:bg-third-clr">
+            <ChevronDownIcon className="h-4 w-4 text-white" />
           </span>
         </div>
         {/* close */}
-        <div className='p-[6px] flex flex-col justify-center items-center'>
-          <span className='aspect-square cursor-pointer overflow-hidden rounded-full bg-third-clr  hover:bg-third-clr p-2'
-          >
-            <DividerVerticalIcon className="text-white w-4 h-4" />
+        <div className="flex flex-col items-center justify-center p-[6px]">
+          <span className="aspect-square cursor-pointer overflow-hidden rounded-full bg-third-clr  p-2 hover:bg-third-clr">
+            <DividerVerticalIcon className="h-4 w-4 text-white" />
           </span>
         </div>
       </div>
     </div>
-  )
-}                   
+  );
+};

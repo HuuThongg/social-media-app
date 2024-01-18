@@ -1,44 +1,44 @@
-import { Poppins } from "next/font/google"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { LoginButton } from "@/components/auth/login-button"
-import SideBar from "./_components/sideBar"
-import RightSideBar from "./_components/rightSideBar"
-import Story from "./_components/story"
-import { CreatePost } from "./_components/createPost"
-import { db } from "@/db"
-import Post from "@/components/post"
+import { Poppins } from 'next/font/google';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { LoginButton } from '@/components/auth/login-button';
+import SideBar from './_components/sideBar';
+import RightSideBar from './_components/rightSideBar';
+import Story from './_components/story';
+import { CreatePost } from './_components/createPost';
+import { db } from '@/db';
+import Post from '@/components/post';
 const font = Poppins({
-  subsets: ["latin"],
-  weight: ["600"]
-})
+  subsets: ['latin'],
+  weight: ['600'],
+});
 
 export default async function Home() {
   const posts = await db.query.posts.findMany({
-    with:{
+    with: {
       author: true,
       comments: true,
       postLikes: true,
-      postToImg:true
-    }
-  })
-  
+      postToImg: true,
+    },
+  });
+
   console.log(posts);
   return (
     <>
-      <SideBar/>
-      <div className=" relative left-[60px] mr-[60px]   flex    origin-top-left  flex-col lg:left-[300px] lg:mr-[300px] bg-primary-clr min-h-screen ">
+      <SideBar />
+      <div className=" relative left-[60px] mr-[60px]   flex    min-h-screen  origin-top-left flex-col bg-primary-clr lg:left-[300px] lg:mr-[300px] ">
         {/* sign in sign out */}
         <div className="space-y-6 text-center">
-          <h1 className={cn(
-            "text-6xl font-semibold text-white drop-shadow-md",
-            font.className,
-          )}>
+          <h1
+            className={cn(
+              'text-6xl font-semibold text-white drop-shadow-md',
+              font.className,
+            )}
+          >
             🔐 Auth
           </h1>
-          <p className="text-white text-lg">
-            A simple authentication service
-          </p>
+          <p className="text-lg text-white">A simple authentication service</p>
           <div>
             <LoginButton asChild>
               <Button variant="secondary" size="lg">
@@ -47,7 +47,6 @@ export default async function Home() {
             </LoginButton>
           </div>
         </div>
-        
 
         <div className="relative flex h-full min-h-[56px] w-full overflow-visible ">
           <div className="relative z-0 flex min-w-0 max-w-none shrink grow basis-0 flex-nowrap items-start justify-between 2xl:max-w-[1464px] ">
@@ -88,5 +87,5 @@ export default async function Home() {
         </div>
       </div>
     </>
-  )
+  );
 }

@@ -1,12 +1,9 @@
-"use server";
-import { db } from "@/db";
-import { accounts, conversations, users } from "@/drizzle/schema";
-import { eq } from "drizzle-orm";
+'use server';
+import { db } from '@/db';
+import { accounts, conversations, users } from '@/drizzle/schema';
+import { eq } from 'drizzle-orm';
 
-export async function createConversation(
-  userOne: string ,
-  userTwo: string
-) {
+export async function createConversation(userOne: string, userTwo: string) {
   const userOneExists = await db.query.users.findMany({
     where: eq(users.id, userOne),
   });
@@ -15,16 +12,15 @@ export async function createConversation(
   });
 
   if (!userOneExists || !userTwoExists) {
-    console.log("===================");
-    throw new Error("One or both users do not exist");
+    console.log('===================');
+    throw new Error('One or both users do not exist');
   }
-  console.log("objecuserOneExistst, ", userOneExists);
-  console.log("objecuserOneExistst, ", userTwoExists);
-  console.log("userOne", userOne);
-  console.log("userTwo", userOne);
+  console.log('objecuserOneExistst, ', userOneExists);
+  console.log('objecuserOneExistst, ', userTwoExists);
+  console.log('userOne', userOne);
+  console.log('userTwo', userOne);
 
-
-  console.log("sucess");
+  console.log('sucess');
   const data = await db
     .insert(conversations)
     .values({
@@ -32,9 +28,8 @@ export async function createConversation(
       userTwo,
     })
     .returning();
-  console.log("data: ", data);
+  console.log('data: ', data);
   const cv = await db.select().from(conversations);
-  console.log("cv-: ", cv);
+  console.log('cv-: ', cv);
   return data[0].id;
 }
-

@@ -1,5 +1,9 @@
-
-import { UserIcon, SeeAllIcon, GamingIcon, MarketplaceIcon } from "@/components/icon";
+import {
+  UserIcon,
+  SeeAllIcon,
+  GamingIcon,
+  MarketplaceIcon,
+} from '@/components/icon';
 
 export const SideBarItems = [
   {

@@ -17,7 +17,7 @@ interface TypeCommentProps {
 }
 
 const TypeComment = ({ postId, parentId }: TypeCommentProps) => {
-  const user = useCurrentUser()
+  const user = useCurrentUser();
   const [text, setText] = useState('');
   const [isWritingCommentOpen, setIsWritingCommentOpen] = useState(false);
   const avatarId = useId();
@@ -48,8 +48,8 @@ const TypeComment = ({ postId, parentId }: TypeCommentProps) => {
               aria-hidden="true"
             >
               <div className="relative flex h-[32px] w-[32px] items-stretch">
-                <UserButton className='w-8 h-8' />
-                
+                <UserButton className="h-8 w-8" />
+
                 <div className="absolute  bottom-[5px] right-[5px]  z-[2]  translate-x-1/2 translate-y-1/2   overflow-hidden rounded-full  bg-third-clr ">
                   <div className="rounded-full p-[2px]">
                     <span>

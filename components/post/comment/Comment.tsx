@@ -1,4 +1,4 @@
-"use server"
+'use server';
 import Image from 'next/image';
 import React from 'react';
 
@@ -20,8 +20,7 @@ import TypeComment from './TypeComment';
 import { currentUser } from '@/lib/auth';
 import { CommentLikes, Comments, commentLikes, users } from '@/drizzle/schema';
 
-export default async function Comment({ comment }: { comment: Comments}) {
-
+export default async function Comment({ comment }: { comment: Comments }) {
   // const commenter = await db.query.users.findFirst({
   //   where: (user, { eq }) => eq(user.id, comment.authorId),
   // })
@@ -37,14 +36,16 @@ export default async function Comment({ comment }: { comment: Comments}) {
       .from(commentLikes)
       .where(
         and(
-
-          eq(commentLikes.commentId,comment.id),
-          eq(commentLikes.useId,userS.id)
+          eq(commentLikes.commentId, comment.id),
+          eq(commentLikes.useId, userS.id),
         ),
       );
     isLiked = !!likeData[0];
   }
-  const likesOnEachComment = await db.select().from(commentLikes).where(eq(commentLikes.commentId,comment.id));
+  const likesOnEachComment = await db
+    .select()
+    .from(commentLikes)
+    .where(eq(commentLikes.commentId, comment.id));
 
   return (
     <div className="flex flex-col pl-4 ">
@@ -98,7 +99,7 @@ export default async function Comment({ comment }: { comment: Comments}) {
                     {/* name */}
                     <span className="block leading-3">
                       <Link href={'/'} className="relative m-0 p-0 leading-3">
-                        <span className="inline-flex min-w-0 max-w-full break-words text-ss font-semibold leading-3 ">
+                        <span className="text-ss inline-flex min-w-0 max-w-full break-words font-semibold leading-3 ">
                           {/* {commenter?.name} */}
                           name
                         </span>
@@ -147,7 +148,7 @@ export default async function Comment({ comment }: { comment: Comments}) {
                                 />
                               </span>
                             </div>
-                            <span className="px-[2px] text-ss font-normal leading-4 text-secondary-text">
+                            <span className="text-ss px-[2px] font-normal leading-4 text-secondary-text">
                               {likesOnEachComment.length}
                             </span>
                           </div>

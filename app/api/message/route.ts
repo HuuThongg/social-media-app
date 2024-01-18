@@ -1,19 +1,19 @@
-import { db } from "@/db";
-import { conversations, messages,users } from "@/drizzle/schema";
-import { currentUser } from "@/lib/auth";
-import { desc, eq, or } from "drizzle-orm";
-import { redirect } from "next/navigation";
-import { type NextRequest } from "next/server";
+import { db } from '@/db';
+import { conversations, messages, users } from '@/drizzle/schema';
+import { currentUser } from '@/lib/auth';
+import { desc, eq, or } from 'drizzle-orm';
+import { redirect } from 'next/navigation';
+import { type NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest) {
   const user = await currentUser();
   if (!user) {
-    redirect("/auth/login");
+    redirect('/auth/login');
   }
   const searchParams = request.nextUrl.searchParams;
-  const cursor = searchParams.get("cursor");
+  const cursor = searchParams.get('cursor');
   //
-  const cursorString = cursor || "0";
+  const cursorString = cursor || '0';
   const cursorNumber = parseInt(cursorString);
 
   const data = await db
@@ -22,8 +22,8 @@ export async function GET(request: NextRequest) {
     .where(
       or(
         eq(conversations.userOne, user.id),
-        eq(conversations.userTwo, user.id)
-      )
+        eq(conversations.userTwo, user.id),
+      ),
     );
 
   const conversationIds = data.map((conversation) => conversation.id);
@@ -35,8 +35,8 @@ export async function GET(request: NextRequest) {
         .from(messages)
         .where(eq(messages.conversationId, conversationId))
         .orderBy(desc(messages.createdAt))
-        .limit(1)
-    )
+        .limit(1),
+    ),
   );
 
   // const lastMessages = messagesData.map((messages) => messages[0]);
@@ -56,9 +56,7 @@ export async function GET(request: NextRequest) {
 
   const nextId = 8;
   const previousId = 2;
-  await new Promise((resolve) => setTimeout(resolve,500));
+  await new Promise((resolve) => setTimeout(resolve, 500));
 
-
-  
-  return Response.json({ data, nextId, previousId});
+  return Response.json({ data, nextId, previousId });
 }

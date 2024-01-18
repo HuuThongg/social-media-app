@@ -12,7 +12,7 @@ import {
   ChevronRightIcon,
 } from '@heroicons/react/24/solid';
 import { Popover, Transition } from '@headlessui/react';
-import {  profileToolkit } from './constant';
+import { profileToolkit } from './constant';
 import Messages from './Messages';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { FaUser } from 'react-icons/fa';
@@ -22,7 +22,7 @@ import MessageBox from './MessageBox';
 import { usePathname } from 'next/navigation';
 const MenuNav = () => {
   const pathname = usePathname();
-  const isHasMessagePath = pathname.includes('/messages')
+  const isHasMessagePath = pathname.includes('/messages');
   const chatsHandler = () => {
     console.log('chatsHandler');
   };
@@ -40,7 +40,7 @@ const MenuNav = () => {
           <Popover.Button className="group/account-icon relative flex h-full items-center justify-center rounded-full active:scale-95 active:opacity-50">
             <div className="relative m-0 flex min-h-0 cursor-pointer select-none overflow-hidden rounded-full p-0 ">
               <Avatar>
-                <AvatarImage src={user?.image || ""} />
+                <AvatarImage src={user?.image || ''} />
                 <AvatarFallback className="bg-sky-500">
                   <FaUser className="text-white" />
                 </AvatarFallback>
@@ -63,19 +63,20 @@ const MenuNav = () => {
           <Popover.Panel>
             <div
               className={clsx(
-                ' absolute left-0 top-0  z-[2] -translate-x-[220px] translate-y-[48px] duration-200 ', {
-                '-left-10': isHasMessagePath,
-                '-left-0': !isHasMessagePath,
-              }
+                ' absolute left-0 top-0  z-[2] -translate-x-[220px] translate-y-[48px] duration-200 ',
+                {
+                  '-left-10': isHasMessagePath,
+                  '-left-0': !isHasMessagePath,
+                },
               )}
             >
               <div className="mr-[5px] mt-[5px]  ">
                 <div className=" overflow-hidden rounded-lg bg-secondary-clr text-[15px] shadow-md  shadow-zinc-600/50 ">
-                  <div className="max-w-[calc(100vw-24px])] relative flex flex-col h-full max-h-[calc(100vh-90px)] w-[360px]   overflow-auto overscroll-contain scrollbar scrollbar-track-transparent scrollbar-thumb-fifth-clr   scrollbar-thumb-rounded-md scrollbar-w-3    hover:scrollbar-track-[#2c2d2f]  ">
-                    <div className="flex w-auto  h-[400px] ">
+                  <div className="max-w-[calc(100vw-24px])] relative flex h-full max-h-[calc(100vh-90px)] w-[360px] flex-col   overflow-auto overscroll-contain scrollbar scrollbar-track-transparent scrollbar-thumb-fifth-clr   scrollbar-thumb-rounded-md scrollbar-w-3    hover:scrollbar-track-[#2c2d2f]  ">
+                    <div className="flex h-[400px]  w-auto ">
                       <div className="overflow-hidden rounded-lg bg-secondary-clr text-[15px] shadow-md shadow-zinc-600/50 ">
                         {/* profile tab */}
-                        <div className="pointer-events-none visible absolute flex flex-col  left-0 top-0 z-0 w-full -translate-x-full  opacity-100 transition-opacity-transform duration-200 ease-fds-soft h-full">
+                        <div className="transition-opacity-transform ease-fds-soft pointer-events-none visible absolute  left-0 top-0 z-0 flex h-full  w-full -translate-x-full flex-col opacity-100 duration-200">
                           {/* profile */}
                           <div className="relative flex shrink-0 grow flex-col justify-start overflow-hidden ">
                             <div className="flex flex-col px-2">
@@ -164,7 +165,7 @@ const MenuNav = () => {
                           </div>
                         </div>
                         {/* Settings & Privacy tab */}
-                        <div className="pointer-events-none visible absolute left-0 top-0 z-[10] h-full w-full -translate-x-0  opacity-100 transition-opacity-transform duration-200 ease-fds-soft ">
+                        <div className="transition-opacity-transform ease-fds-soft pointer-events-none visible absolute left-0 top-0 z-[10] h-full  w-full -translate-x-0 opacity-100 duration-200 ">
                           {/* profile be */}
                           <div className="relative flex shrink-0 grow flex-col justify-start overflow-hidden ">
                             <div className="flex flex-col px-2">
@@ -202,7 +203,7 @@ const MenuNav = () => {
                                           {/* name */}
                                           <div className="min-w-0 max-w-full break-words text-left text-[17px] leading-[1.33rem] text-primary-text">
                                             <span className="relative block overflow-hidden text-ellipsis whitespace-nowrap">
-                                               Settin Privacy tab
+                                              Settin Privacy tab
                                             </span>
                                           </div>
                                         </div>
@@ -287,12 +288,16 @@ const MenuNav = () => {
             </div>
           </Popover.Button>
 
-          <Popover.Panel as="div" className={clsx("absolute  top-0  z-[2] duration-200 ui-open:-translate-x-[220px] ui-open:translate-y-[48px]",
-            {
-              '-left-10': isHasMessagePath,
-              '-left-0': !isHasMessagePath,
-            }
-          )}>
+          <Popover.Panel
+            as="div"
+            className={clsx(
+              'absolute  top-0  z-[2] duration-200 ui-open:-translate-x-[220px] ui-open:translate-y-[48px]',
+              {
+                '-left-10': isHasMessagePath,
+                '-left-0': !isHasMessagePath,
+              },
+            )}
+          >
             <div className="mr-[5px] mt-[5px] ">
               <div className="overflow-hidden rounded-lg bg-secondary-clr shadow-md  shadow-zinc-600/50 ">
                 <div className="max-w-[calc(100vw-24px])] flex max-h-[calc(100vh-90px)] w-[360px] flex-col  ">
@@ -324,7 +329,6 @@ const MenuNav = () => {
                             </div>
                           </header>
                           <div className="text-primary-text">
-                            
                             <div className="mt-1 px-4 py-2">
                               <div className=" box-border flex h-[36px] ">
                                 <div className="relative   h-full">
@@ -350,7 +354,7 @@ const MenuNav = () => {
                           </div>
                         </div>
                         {/* each person  */}
-                        <Notification/>
+                        <Notification />
                       </div>
                     </div>
                   </div>
@@ -382,7 +386,9 @@ const MenuNav = () => {
                 </div>
               </div>
               <div className="absolute -top-1 right-0 flex h-4 w-4 items-center justify-center rounded-full bg-red-500">
-                <span className="text-[10px] font-semibold  text-white">99</span>
+                <span className="text-[10px] font-semibold  text-white">
+                  99
+                </span>
               </div>
             </Popover.Button>
             <Popover.Panel
@@ -393,13 +399,13 @@ const MenuNav = () => {
                 <div className="xl overflow-hidden rounded-lg bg-secondary-clr shadow-md  shadow-zinc-600/50 ">
                   <div className="max-w-[calc(100vw-24px])] flex h-full max-h-[calc(100vh-90px)] w-[360px]  flex-col">
                     {/* chats */}
-                    <MessageBox/>
+                    <MessageBox />
                   </div>
                 </div>
               </div>
             </Popover.Panel>
           </Popover>
-        ): null}
+        ) : null}
       </Popover.Group>
       {/* chat and notif pops up  */}
     </div>

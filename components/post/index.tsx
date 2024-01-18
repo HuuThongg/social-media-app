@@ -36,7 +36,7 @@ dayjs.updateLocale('en', {
 });
 type PostProps = {
   post: Posts & {
-    comments: Comments[] ;
+    comments: Comments[];
     postLikes: PostLikes[];
     author: User | null;
     postToImg: PostToImg[] | null;
@@ -89,8 +89,7 @@ export default function Post({ post }: PostProps) {
               </span>
             </div>
           </div>
-          <PostToolTip postId={postId}/>
-          
+          <PostToolTip postId={postId} />
         </div>
         {/* actual content */}
         <div>
@@ -101,9 +100,7 @@ export default function Post({ post }: PostProps) {
             </div>
           </div>
           {/* image/video */}
-          {imageUrl && (
-            <ImageSection postId={postId} imageUrl={imageUrl}/>
-          )}
+          {imageUrl && <ImageSection postId={postId} imageUrl={imageUrl} />}
         </div>
         {/* comment */}
         <Engagement

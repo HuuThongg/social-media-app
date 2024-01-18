@@ -5,7 +5,12 @@ import CommentSection from './comment/CommentSection';
 // import { currentProfile } from '@/lib/query/db/current-profile';
 import { sql, eq, and } from 'drizzle-orm';
 import { useCurrentUser } from '@/hooks/use-current-user';
-import { Comments, PostLikes, User, postLikes as postLikesSchema } from '@/drizzle/schema';
+import {
+  Comments,
+  PostLikes,
+  User,
+  postLikes as postLikesSchema,
+} from '@/drizzle/schema';
 import { db } from '@/db';
 import { currentUser } from '@/lib/auth';
 interface EngagementProps {
@@ -25,17 +30,19 @@ export default async function Engagement({
   const commentAmount = comments.length;
   const shareAmount = 0;
   const user = await currentUser();
-  
+
   let isLiked = false;
   let likeData: PostLikes[] | undefined;
   if (user) {
-    
-    const likeData = await db.select().from(postLikesSchema).where(
-      and(
-        eq( postLikesSchema.postId, postId ),
-        eq(postLikesSchema.userId, user.id)
-      )
-    )
+    const likeData = await db
+      .select()
+      .from(postLikesSchema)
+      .where(
+        and(
+          eq(postLikesSchema.postId, postId),
+          eq(postLikesSchema.userId, user.id),
+        ),
+      );
     if (likeData[0]) {
       isLiked = !!likeData[0];
     }

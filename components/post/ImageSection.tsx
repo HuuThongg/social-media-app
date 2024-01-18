@@ -1,7 +1,7 @@
-'use client'
+'use client';
 
-import Image from "next/image";
-import Link from "next/link"
+import Image from 'next/image';
+import Link from 'next/link';
 
 const contacts = [
   {
@@ -96,24 +96,25 @@ const contacts = [
     seen: true,
   },
 ];
-const ImageSection = ({postId,imageUrl}:{postId:number; imageUrl:string}) => {
+const ImageSection = ({
+  postId,
+  imageUrl,
+}: {
+  postId: number;
+  imageUrl: string;
+}) => {
   return (
     <div className="relative">
       {/* <Link href={`/photo/${postId}`} className="relative m-0 min-h-0 min-w-0 p-0"
       > */}
       <div className="relative m-0 min-h-0 min-w-0 p-0">
-
         <div className="relative flex w-full flex-col items-center justify-center overflow-hidden bg-black">
           {/* use hook to measure element dimension */}
           <div className="w-[calc((100vh-325px)*1.1257)] min-w-[500px] max-w-full ">
             <div className="relative h-0 overflow-hidden pt-[88.83333%]">
               <div className="absolute left-0 top-0 h-full w-full">
                 <div className="flex h-full w-full items-center justify-center  object-cover">
-                  <Link
-                    href={`/?photoId=${postId}`}
-                    as={`/photo/${postId}`}
-                    
-                  >
+                  <Link href={`/?photoId=${postId}`} as={`/photo/${postId}`}>
                     <Image
                       style={{ transform: 'translate3d(0, 0, 0)' }}
                       src={imageUrl}
@@ -131,11 +132,10 @@ const ImageSection = ({postId,imageUrl}:{postId:number; imageUrl:string}) => {
             </div>
           </div>
         </div>
-      {/* </Link> */}
+        {/* </Link> */}
+      </div>
     </div>
+  );
+};
 
-    </div>
-  )
-}
-
-export default ImageSection
+export default ImageSection;

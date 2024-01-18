@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
-import { useInfiniteQuery, } from '@tanstack/react-query'
-import { useInView } from 'react-intersection-observer'
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInView } from 'react-intersection-observer';
 
 import {
   FaceSmileIcon,
@@ -13,8 +13,7 @@ import { ReplyIcon } from '@/components/icons';
 import React, { useRef } from 'react';
 
 const ChatMessages = () => {
-
-  const { ref, inView } = useInView()
+  const { ref, inView } = useInView();
   const messageBoxRef = useRef<HTMLDivElement>(null);
   const {
     status,
@@ -30,21 +29,20 @@ const ChatMessages = () => {
   } = useInfiniteQuery({
     queryKey: ['messages'],
     queryFn: async ({ pageParam }) => {
-      const res = await fetch('/api/message?cursor=' + pageParam)
+      const res = await fetch('/api/message?cursor=' + pageParam);
       return res.json();
     },
     initialPageParam: 0,
     getPreviousPageParam: (firstPage) => firstPage.previousId ?? undefined,
     getNextPageParam: (lastPage) => lastPage.nextId ?? undefined,
     maxPages: 3,
-  })
+  });
 
   React.useEffect(() => {
     if (inView) {
-      fetchNextPage()
+      fetchNextPage();
     }
-  }, [fetchNextPage, inView])
-
+  }, [fetchNextPage, inView]);
 
   React.useEffect(() => {
     if (messageBoxRef.current && data) {
@@ -62,15 +60,15 @@ const ChatMessages = () => {
     setText(inputValue);
   };
   const shouldconsider = 'flex-row-reverse';
-  const a = "blue-600"
-  console.log("get rerendered text");
+  const a = 'blue-600';
+  console.log('get rerendered text');
   return (
     <div className="relative flex max-h-full flex-1 flex-col overflow-hidden ">
       <div className="relative flex max-h-full flex-1 flex-col overflow-hidden border-l-2 border-r-2 border-messenger-card-bg">
-        <div className="relative flex flex-1 flex-col overflow-x-hidden overflow-y-scroll scrollbar scrollbar-track-transparent scrollbar-thumb-fifth-clr    scrollbar-thumb-rounded-md scrollbar-w-2 hover:scrollbar-track-[#2c2d2f]"
+        <div
+          className="relative flex flex-1 flex-col overflow-x-hidden overflow-y-scroll scrollbar scrollbar-track-transparent scrollbar-thumb-fifth-clr    scrollbar-thumb-rounded-md scrollbar-w-2 hover:scrollbar-track-[#2c2d2f]"
           ref={messageBoxRef}
         >
-
           {status === 'pending' ? (
             <div>Loading...</div>
           ) : status === 'error' ? (
@@ -82,11 +80,9 @@ const ChatMessages = () => {
                 onClick={() => fetchPreviousPage()}
                 disabled={!hasPreviousPage || isFetchingPreviousPage}
               >
-                {isFetchingPreviousPage && hasPreviousPage
-                  ? (
-                    <div>load older</div>
-                  )
-                  : null}
+                {isFetchingPreviousPage && hasPreviousPage ? (
+                  <div>load older</div>
+                ) : null}
               </button>
               {/* each message */}
               {Array.from(Array(10).keys()).map((item, index) => (
@@ -264,15 +260,12 @@ const ChatMessages = () => {
                   <div className="h-[7px] w-full bg-messenger-card-bg "></div>
                 </div>
               </div>
-
             </>
           )}
-
-
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ChatMessages
+export default ChatMessages;

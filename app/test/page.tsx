@@ -20,7 +20,7 @@ export default function Test() {
     if (!socket) {
       return;
     }
-    socket.on('input-change', (mesg :any) => {
+    socket.on('input-change', (mesg: any) => {
       console.log('activated');
     });
     return () => socket.off('input-change');

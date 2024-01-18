@@ -1,6 +1,6 @@
-"use server"
-import { db } from "@/db";
-import { currentUser } from "@/lib/auth";
+'use server';
+import { db } from '@/db';
+import { currentUser } from '@/lib/auth';
 
 export const getUserByEmail = async (email: string) => {
   try {
@@ -11,7 +11,7 @@ export const getUserByEmail = async (email: string) => {
   } catch {
     return null;
   }
-}
+};
 
 export const getUserById = async (id: string) => {
   try {
@@ -22,22 +22,21 @@ export const getUserById = async (id: string) => {
   } catch {
     return null;
   }
-}
-
+};
 
 export const allUsersExceptYou = async () => {
   try {
     const user = await currentUser();
-    
-    if(!user?.id){
+
+    if (!user?.id) {
       return null;
     }
 
     const users = await db.query.users.findMany({
-      where: (user1, { ne }) => ne(user1.id, user.id)
-    })
+      where: (user1, { ne }) => ne(user1.id, user.id),
+    });
     return users;
   } catch {
     return null;
   }
-}
+};

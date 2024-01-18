@@ -1,11 +1,11 @@
-"use server";
+'use server';
 
-import { db } from "@/db";
-import { commentLikes, postLikes, users } from "@/drizzle/schema";
-import { currentUser } from "@/lib/auth";
-import { and, eq } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { db } from '@/db';
+import { commentLikes, postLikes, users } from '@/drizzle/schema';
+import { currentUser } from '@/lib/auth';
+import { and, eq } from 'drizzle-orm';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
 export default async function likeComment({
   commentId,
@@ -17,13 +17,13 @@ export default async function likeComment({
   const user = await currentUser();
 
   if (!user) {
-    redirect("/auth/login");
+    redirect('/auth/login');
   }
   try {
     if (!isLiked) {
       await db.insert(commentLikes).values({
         commentId,
-        useId: user.id
+        useId: user.id,
       });
     } else {
       await db
@@ -31,13 +31,13 @@ export default async function likeComment({
         .where(
           and(
             eq(commentLikes.commentId, commentId),
-            eq(commentLikes.useId, user.id)
-          )
+            eq(commentLikes.useId, user.id),
+          ),
         );
     }
-    revalidatePath("/");
-    console.log("Database insertion like successful");
+    revalidatePath('/');
+    console.log('Database insertion like successful');
   } catch (error) {
-    console.error("Error inserting like into the database:", error);
+    console.error('Error inserting like into the database:', error);
   }
 }

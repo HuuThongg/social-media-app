@@ -1,13 +1,9 @@
 'use client';
 import clsx from 'clsx';
-import {
-  PhotoIcon,
-  PaperAirplaneIcon,
-} from '@heroicons/react/24/outline';
+import { PhotoIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline';
 import { PlusCircleIcon } from '@heroicons/react/20/solid';
 import TextareaAutosize from 'react-textarea-autosize';
-import React,{ useState } from 'react';
-
+import React, { useState } from 'react';
 
 const ChatTypeBox = () => {
   const [text, setText] = useState('');
@@ -19,22 +15,21 @@ const ChatTypeBox = () => {
     setText(inputValue);
   };
   const sendMessage = () => {
-    console.log("send message");
-  }
+    console.log('send message');
+  };
   const sendMessageHandler = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       // Add your submit logic here
       sendMessage();
       console.log('Submit text:', text);
-      setText("")
+      setText('');
     }
-  }
-  const sendMessageWithButton = () =>{
+  };
+  const sendMessageWithButton = () => {
     sendMessage();
-    setText("")
-
-  }
+    setText('');
+  };
   return (
     <div className="flex items-end py-3 leading-4 text-[0.9375] shadow-md">
       {/* more */}
@@ -87,14 +82,17 @@ const ChatTypeBox = () => {
       </div>
       {/* send message */}
       <div className="inline-flex grow-0">
-        <button title="send message" className=" mx-1  min-w-0 shrink-0 grow-0 basis-auto cursor-pointer overflow-hidden rounded-full p-2 hover:bg-third-clr"
-          type='submit' onClick={sendMessageWithButton}
+        <button
+          title="send message"
+          className=" mx-1  min-w-0 shrink-0 grow-0 basis-auto cursor-pointer overflow-hidden rounded-full p-2 hover:bg-third-clr"
+          type="submit"
+          onClick={sendMessageWithButton}
         >
           <PaperAirplaneIcon className="h-5 w-5 fill-disabled-icon stroke-transparent" />
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ChatTypeBox
+export default ChatTypeBox;

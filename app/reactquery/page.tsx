@@ -1,13 +1,11 @@
-'use client'
-import { useQuery } from "@tanstack/react-query"
-import React from "react"
-import {
-  useInfiniteQuery,
-} from '@tanstack/react-query'
-export default function TanstackQueryPage () {
+'use client';
+import { useQuery } from '@tanstack/react-query';
+import React from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
+export default function TanstackQueryPage() {
   // const {data:posts, isLoading, isError} = useQuery<any>({
   //   queryKey:["posts"],
-  //   queryFn: async  () =>{ 
+  //   queryFn: async  () =>{
   //     const response =  await fetch("/api/message")
   //     if (!response.ok) {
   //       throw new Error('Network response was not ok')
@@ -30,18 +28,18 @@ export default function TanstackQueryPage () {
   } = useInfiniteQuery({
     queryKey: ['projects'],
     queryFn: async ({ pageParam }) => {
-      const res = await fetch('/api/notification?cursor=' + pageParam)
+      const res = await fetch('/api/notification?cursor=' + pageParam);
       return res.json();
     },
     initialPageParam: 0,
     getPreviousPageParam: (firstPage) => firstPage.previousId ?? undefined,
     getNextPageParam: (lastPage) => lastPage.nextId ?? undefined,
     maxPages: 3,
-  })
+  });
   // if(isLoading) return(
   //   <div>isLoading</div>
   // )
-  // if (isError) return 
+  // if (isError) return
   return (
     <div>
       <div>
@@ -74,7 +72,7 @@ export default function TanstackQueryPage () {
             </div>
             {data.pages.map((page) => (
               <React.Fragment key={page.nextId}>
-                {page.data.map((project) => (
+                {page.data.map((project: any) => (
                   <p
                     style={{
                       border: '1px solid gray',
@@ -112,5 +110,5 @@ export default function TanstackQueryPage () {
         <hr />
       </div>
     </div>
-  )
+  );
 }

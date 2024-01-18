@@ -1,9 +1,9 @@
-import { db } from "@/db";
+import { db } from '@/db';
 
 export const getVerificationTokenByEmail = async (email: string) => {
   try {
     const verificationToken = await db.query.verificationTokens.findFirst({
-      where: (verificationToken, {eq}) => eq(verificationToken.email, email),
+      where: (verificationToken, { eq }) => eq(verificationToken.email, email),
     });
 
     return verificationToken;
@@ -11,4 +11,3 @@ export const getVerificationTokenByEmail = async (email: string) => {
     return null;
   }
 };
-

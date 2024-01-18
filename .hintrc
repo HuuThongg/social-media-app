@@ -8,6 +8,19 @@
       {
         "label": "off"
       }
+    ],
+    "axe/aria": [
+      "default",
+      {
+        "aria-required-parent": "off",
+        "aria-valid-attr-value": "off"
+      }
+    ],
+    "axe/parsing": [
+      "default",
+      {
+        "duplicate-id-aria": "off"
+      }
     ]
   }
 }

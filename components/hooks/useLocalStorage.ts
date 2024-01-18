@@ -1,24 +1,24 @@
 'use client';
 import React from 'react';
 
-function dispatchStorageEvent(key, newValue) {
-  window.dispatchEvent(new StorageEvent('storage', { key, newValue }));
+function dispatchStorageEvent(key: any, newValue: any) {
+  window.dispatchEvent(new StorageEvent("storage", { key, newValue }));
 }
-const setLocalStorageItem = (key, value) => {
+const setLocalStorageItem = (key: any, value: any) => {
   const stringifiedValue = JSON.stringify(value);
   window.localStorage.setItem(key, stringifiedValue);
   dispatchStorageEvent(key, stringifiedValue);
 };
-const removeLocalStorageItem = (key) => {
+const removeLocalStorageItem = (key: any) => {
   window.localStorage.removeItem(key);
   dispatchStorageEvent(key, null);
 };
-const getLocalStorageItem = (key) => {
+const getLocalStorageItem = (key: any) => {
   return window.localStorage.getItem(key);
 };
-const useLocalStorageSubscribe = (callback) => {
-  window.addEventListener('storage', callback);
-  return () => window.removeEventListener('storage', callback);
+const useLocalStorageSubscribe = (callback: any) => {
+  window.addEventListener("storage", callback);
+  return () => window.removeEventListener("storage", callback);
 };
 const getLocalStorageServerSnapshot = () => {
   // throw Error("useLocalStorage is a client-only hook");
@@ -38,10 +38,10 @@ export function useLocalStorage<T>(
   );
 
   const setState = React.useCallback(
-    (v) => {
+    (v: any) => {
       try {
-        const parsedStore = JSON.parse(store || 'null');
-        const nextState = typeof v === 'function' ? v(parsedStore) : v;
+        const parsedStore = JSON.parse(store || "null");
+        const nextState = typeof v === "function" ? v(parsedStore) : v;
 
         if (nextState === undefined || nextState === null) {
           removeLocalStorageItem(key);

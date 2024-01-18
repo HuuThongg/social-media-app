@@ -6,19 +6,19 @@ import { EllipsisHorizontalIcon } from '@heroicons/react/24/solid';
 import { messages } from './constant';
 import { useLocalStorage } from '@/components/hooks/useLocalStorage';
 import type { Message, MessageBox } from '../windowChat/WindowChat';
-import {useInfiniteQuery,} from '@tanstack/react-query'
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useInView } from 'react-intersection-observer'
+import { useInView } from 'react-intersection-observer';
 import React from 'react';
 import { usePathname } from 'next/navigation';
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 
 const Messages = () => {
-  const { ref, inView } = useInView()
-  const router = useRouter()
+  const { ref, inView } = useInView();
+  const router = useRouter();
   const pathname = usePathname();
-  const isHasMessagePath = pathname.includes('/messages')
-  
+  const isHasMessagePath = pathname.includes('/messages');
+
   const {
     status,
     data,
@@ -33,22 +33,20 @@ const Messages = () => {
   } = useInfiniteQuery({
     queryKey: ['projects'],
     queryFn: async ({ pageParam }) => {
-      const res = await fetch('/api/message?cursor=' + pageParam)
+      const res = await fetch('/api/message?cursor=' + pageParam);
       return res.json();
     },
     initialPageParam: 0,
     getPreviousPageParam: (firstPage) => firstPage.previousId ?? undefined,
     getNextPageParam: (lastPage) => lastPage.nextId ?? undefined,
     maxPages: 3,
-  })
-
+  });
 
   const [messageIds, setMessageIds] = useLocalStorage<MessageBox[]>(
     'messageIds',
     [],
   );
   const addMessageId = (message: Message) => {
-    
     // Check if the message already exists in the messageIds array
     const messageExists = messageIds.some((msg) => msg.id === message.id);
     if (!messageExists) {
@@ -61,14 +59,14 @@ const Messages = () => {
 
   React.useEffect(() => {
     if (inView) {
-      fetchNextPage()
+      fetchNextPage();
     }
-  }, [fetchNextPage, inView])
-  
+  }, [fetchNextPage, inView]);
+
   return (
-    <div className="flex max-h-[calc(100vh-90px-152px)] flex-col overflow-y-scroll overflow-x-hidden   scrollbar scrollbar-track-transparent scrollbar-thumb-fifth-clr scrollbar-thumb-rounded-md   scrollbar-w-3 hover:scrollbar-track-[#2c2d2f]">
+    <div className="flex max-h-[calc(100vh-90px-152px)] flex-col overflow-x-hidden overflow-y-scroll   scrollbar scrollbar-track-transparent scrollbar-thumb-fifth-clr scrollbar-thumb-rounded-md   scrollbar-w-3 hover:scrollbar-track-[#2c2d2f]">
       {status === 'pending' ? (
-          <SkeletonMessageChat length={4}/>
+        <SkeletonMessageChat length={4} />
       ) : status === 'error' ? (
         <span>Error: {error.message}</span>
       ) : (
@@ -76,12 +74,12 @@ const Messages = () => {
           {messages.map((message, index) => (
             <div className=" relative px-2" key={index}>
               <button
-                className="group/item relative m-0 flex flex-col rounded-lg p-2 group-hover/edit:bg-red-500 hover:bg-third-clr w-full"
+                className="group/item relative m-0 flex w-full flex-col rounded-lg p-2 group-hover/edit:bg-red-500 hover:bg-third-clr"
                 onClick={() => {
                   if (isHasMessagePath) {
-                    router.push(`/messages/${message.id}`)
+                    router.push(`/messages/${message.id}`);
                   } else {
-                    addMessageId(message)
+                    addMessageId(message);
                   }
                 }}
               >
@@ -118,7 +116,7 @@ const Messages = () => {
                       </div>
                       <div className="h-2 w-full"></div>
                       {/* last message */}
-                      <div className="min-h-4 flex w-full items-center text-[12px] text-primary-text">
+                      <div className="flex min-h-4 w-full items-center text-[12px] text-primary-text">
                         <span className="block pr-2">
                           <span className="block  max-w-[200px]  overflow-hidden truncate">
                             {' '}
@@ -154,7 +152,7 @@ const Messages = () => {
 
                 <div
                   className={clsx(
-                    'group/edit invisible absolute right-[30px]  top-1/2   h-[32px] w-[32px]  -translate-y-1/2 rounded-full border border-gray-700 bg-hover-overlay opacity-0  transition-all duration-100 ease-fade-out group-hover/item:visible group-hover/item:opacity-100 hover:bg-fifth-clr',
+                    'group/edit ease-fade-out invisible absolute  right-[30px]   top-1/2 h-[32px]  w-[32px] -translate-y-1/2 rounded-full border border-gray-700 bg-hover-overlay  opacity-0 transition-all duration-100 group-hover/item:visible group-hover/item:opacity-100 hover:bg-fifth-clr',
                   )}
                 >
                   <div className="flex h-full items-center justify-center drop-shadow-xl ">
@@ -169,11 +167,9 @@ const Messages = () => {
             onClick={() => fetchNextPage()}
             disabled={!hasNextPage || isFetchingNextPage}
           >
-            {isFetchingNextPage && hasNextPage
-              ? (
-                <SkeletonMessageChat length={2} />
-              )
-              : null}
+            {isFetchingNextPage && hasNextPage ? (
+              <SkeletonMessageChat length={2} />
+            ) : null}
           </button>
         </>
       )}
@@ -183,21 +179,27 @@ const Messages = () => {
 
 export default Messages;
 
-export const SkeletonMessageChat = ({length}:{length:number}) => {
+export const SkeletonMessageChat = ({ length }: { length: number }) => {
   const getRandomWidth = () => {
     return Math.floor(Math.random() * (250 - 150 + 1) + 150);
   };
   return (
-    <div className='relative  space-y-2 p-3'>
+    <div className="relative  space-y-2 p-3">
       {Array.from(Array(length).keys()).map((_, i) => (
         <div key={i} className="flex items-center space-x-4">
           <Skeleton className="h-12 w-12 rounded-full" />
           <div className="space-y-2">
-            <Skeleton style={{ width: `${getRandomWidth()}px` }} className="h-4 " />
-            <Skeleton style={{ width: `${getRandomWidth()}px` }} className="h-4 " />
+            <Skeleton
+              style={{ width: `${getRandomWidth()}px` }}
+              className="h-4 "
+            />
+            <Skeleton
+              style={{ width: `${getRandomWidth()}px` }}
+              className="h-4 "
+            />
           </div>
         </div>
       ))}
     </div>
-  )
-}
+  );
+};

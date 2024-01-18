@@ -1,26 +1,22 @@
-"use client";
+'use client';
 
-import * as z from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useTransition, useState } from "react";
-import { useSession } from "next-auth/react";
+import * as z from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useTransition, useState } from 'react';
+import { useSession } from 'next-auth/react';
 
-import { Switch } from "@/components/ui/switch";
+import { Switch } from '@/components/ui/switch';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { SettingsSchema } from "@/schemas";
-import {
-  Card,
-  CardHeader,
-  CardContent,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/select';
+import { SettingsSchema } from '@/schemas';
+import { Card, CardHeader, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 // import { settings } from "@/actions/settings";
 import {
   Form,
@@ -30,12 +26,12 @@ import {
   FormLabel,
   FormDescription,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { useCurrentUser } from "@/hooks/use-current-user";
-import { FormError } from "@/components/form-error";
-import { FormSuccess } from "@/components/form-success";
-import { RoleEnumType as UserRole } from "@/drizzle/schema";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { useCurrentUser } from '@/hooks/use-current-user';
+import { FormError } from '@/components/form-error';
+import { FormSuccess } from '@/components/form-success';
+import { RoleEnumType as UserRole } from '@/drizzle/schema';
 const SettingsPage = () => {
   const user = useCurrentUser();
 
@@ -53,7 +49,7 @@ const SettingsPage = () => {
       email: user?.email || undefined,
       role: user?.role || undefined,
       // isTwoFactorEnabled: user?.isTwoFactorEnabled || undefined,
-    }
+    },
   });
 
   const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
@@ -70,23 +66,18 @@ const SettingsPage = () => {
       //     }
       //   })
       //   .catch(() => setError("Something went wrong!"));
-      console.log("settings")
+      console.log('settings');
     });
-  }
+  };
 
   return (
     <Card className="w-[600px]">
       <CardHeader>
-        <p className="text-2xl font-semibold text-center">
-          ⚙️ Settings
-        </p>
+        <p className="text-center text-2xl font-semibold">⚙️ Settings</p>
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form
-            className="space-y-6"
-            onSubmit={form.handleSubmit(onSubmit)}
-          >
+          <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
             <div className="space-y-4">
               <FormField
                 control={form.control}
@@ -180,12 +171,8 @@ const SettingsPage = () => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value={UserRole.ADMIN}>
-                          Admin
-                        </SelectItem>
-                        <SelectItem value={UserRole.USER}>
-                          User
-                        </SelectItem>
+                        <SelectItem value={UserRole.ADMIN}>Admin</SelectItem>
+                        <SelectItem value={UserRole.USER}>User</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -218,10 +205,7 @@ const SettingsPage = () => {
             </div>
             <FormError message={error} />
             <FormSuccess message={success} />
-            <Button
-              disabled={isPending}
-              type="submit"
-            >
+            <Button disabled={isPending} type="submit">
               Save
             </Button>
           </form>
@@ -229,6 +213,6 @@ const SettingsPage = () => {
       </CardContent>
     </Card>
   );
-}
+};
 
 export default SettingsPage;

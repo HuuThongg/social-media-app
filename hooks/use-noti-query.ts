@@ -1,10 +1,10 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
-import qs from "query-string";
+import { useInfiniteQuery } from '@tanstack/react-query';
+import qs from 'query-string';
 
 interface NotiQueryProps {
   queryKey: string;
   apiUrl: string;
-  paramKey: "channelId" | "conversationId";
+  paramKey: 'channelId' | 'conversationId';
   paramValue: string;
 }
 export const useNotiQuery = ({ queryKey, apiUrl }: NotiQueryProps) => {
@@ -17,7 +17,7 @@ export const useNotiQuery = ({ queryKey, apiUrl }: NotiQueryProps) => {
           // [paramKey]: paramValue,
         },
       },
-      { skipNull: true }
+      { skipNull: true },
     );
 
     const res = await fetch(url);

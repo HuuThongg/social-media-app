@@ -1,7 +1,6 @@
 'use client';
 import clsx from 'clsx';
 import {
-
   PencilSquareIcon,
   XMarkIcon,
   MinusIcon,
@@ -19,6 +18,7 @@ import {
 } from '@/components/ui/popover';
 import { useWindowSize } from '@/components/hooks/useWindowSize';
 import BoxMessage from './BoxMessage';
+import { usePathname } from 'next/navigation';
 
 export interface Message {
   id: number;
@@ -31,13 +31,15 @@ export interface MessageBox extends Message {
   isOpen: boolean;
 }
 const WindowChat = () => {
+  const pathname = usePathname();
+  const isHasMessagePath = pathname.includes('/messages');
+
   const [messageField, setMessageField] = useLocalStorage<MessageBox[]>(
     'messageIds',
     [],
   );
   const size = useWindowSize();
   const [isShownChatBoxOptions, setIsShownChatBoxOptions] = useState(false);
-
   let activeMessageField = messageField
     .filter((message) => message.isOpen === true)
     .reverse();
@@ -64,6 +66,8 @@ const WindowChat = () => {
       }
     }
   }, [messageField, maxMessages, setMessageField, activeMessageFieldLength]);
+
+  if (isHasMessagePath) return null;
 
   const handleMinimizeMessageBox = (id: number) => {
     const updatedMessageField = messageField.map((message) => {
@@ -98,15 +102,20 @@ const WindowChat = () => {
     });
     setMessageField(updatedMessageField);
   };
-  
+
   return (
     <div className="fixed bottom-0 right-0  z-[49] ">
       <div className="isolate flex items-end">
         {/* chat boxes container */}
-        
+
         <ul className="fixed bottom-0 right-[80px] z-[1] flex ">
           {activeMessageField.map((item, index) => (
-            <BoxMessage handleCloseMessageBox={handleCloseMessageBox} handleMinimizeMessageBox={handleMinimizeMessageBox}  key={item.id} item={item} />
+            <BoxMessage
+              handleCloseMessageBox={handleCloseMessageBox}
+              handleMinimizeMessageBox={handleMinimizeMessageBox}
+              key={item.id}
+              item={item}
+            />
           ))}
         </ul>
         {/* util for chat  */}
@@ -144,7 +153,8 @@ const WindowChat = () => {
                   </button>
                 </div>
                 {/* close chat */}
-                <div className="group/close invisible  absolute -right-1 -top-1 flex  h-5 w-5 flex-auto shrink-0 grow-0 scale-0 cursor-pointer items-center justify-center rounded-full bg-messenger-card-bg group-hover:visible group-hover:scale-100 hover:bg-fourth-clr"
+                <div
+                  className="group/close invisible  absolute -right-1 -top-1 flex  h-5 w-5 flex-auto shrink-0 grow-0 scale-0 cursor-pointer items-center justify-center rounded-full bg-messenger-card-bg group-hover:visible group-hover:scale-100 hover:bg-fourth-clr"
                   onClick={() => handleCloseMessageBox(message.id)}
                 >
                   <XMarkIcon className="h-4 w-4 text-disabled-icon" />

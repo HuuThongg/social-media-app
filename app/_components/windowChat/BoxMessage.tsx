@@ -15,14 +15,14 @@ import { PlusCircleIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
 import Image from 'next/image';
 import TextareaAutosize from 'react-textarea-autosize';
-import  { useState } from 'react';
+import { useState } from 'react';
 
 import { useWindowSize } from '@/components/hooks/useWindowSize';
 import { ReplyIcon } from '@/components/icons';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useInView } from 'react-intersection-observer'
-import { useInfiniteQuery, } from '@tanstack/react-query'
-import React,{useRef} from 'react';
+import { useInView } from 'react-intersection-observer';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import React, { useRef } from 'react';
 
 export interface Message {
   id: number;
@@ -36,7 +36,7 @@ export interface MessageBox extends Message {
 }
 interface MessageBoxProps {
   item: MessageBox;
-  handleMinimizeMessageBox : (id:number) => void;
+  handleMinimizeMessageBox: (id: number) => void;
   handleCloseMessageBox: (id: number) => void;
 }
 
@@ -48,8 +48,12 @@ interface MessageBoxProps {
 //   }
 // }, []);
 
-const BoxMessage = ({ item, handleMinimizeMessageBox, handleCloseMessageBox }: MessageBoxProps) => {
-  const { ref, inView } = useInView()
+const BoxMessage = ({
+  item,
+  handleMinimizeMessageBox,
+  handleCloseMessageBox,
+}: MessageBoxProps) => {
+  const { ref, inView } = useInView();
   const messageBoxRef = useRef<HTMLDivElement>(null);
   const {
     status,
@@ -65,26 +69,25 @@ const BoxMessage = ({ item, handleMinimizeMessageBox, handleCloseMessageBox }: M
   } = useInfiniteQuery({
     queryKey: ['messages'],
     queryFn: async ({ pageParam }) => {
-      const res = await fetch('/api/message?cursor=' + pageParam)
+      const res = await fetch('/api/message?cursor=' + pageParam);
       return res.json();
     },
     initialPageParam: 0,
     getPreviousPageParam: (firstPage) => firstPage.previousId ?? undefined,
     getNextPageParam: (lastPage) => lastPage.nextId ?? undefined,
     maxPages: 3,
-  })
+  });
 
   React.useEffect(() => {
     if (inView) {
-      fetchNextPage()
+      fetchNextPage();
     }
-  }, [fetchNextPage, inView])
-
+  }, [fetchNextPage, inView]);
 
   React.useEffect(() => {
     if (messageBoxRef.current && data) {
-      console.log("a:", messageBoxRef.current.scrollTop);
-      console.log("b:", messageBoxRef.current.scrollHeight);
+      console.log('a:', messageBoxRef.current.scrollTop);
+      console.log('b:', messageBoxRef.current.scrollHeight);
 
       messageBoxRef.current.scrollTop = messageBoxRef.current.scrollHeight;
     }
@@ -100,11 +103,11 @@ const BoxMessage = ({ item, handleMinimizeMessageBox, handleCloseMessageBox }: M
     setText(inputValue);
   };
   const shouldconsider = 'flex-row-reverse';
-  const a = "blue-600"
-  console.log("get rerendered text");
+  const a = 'blue-600';
+  console.log('get rerendered text');
 
   return (
-    <li  className="relative ">
+    <li className="relative ">
       <div className=" h-full " tabIndex={-1}>
         <div className="ml-[10px] flex h-[455px]  max-h-[calc(100vh-56px-10px)]  w-[328px]  flex-col rounded-t-lg bg-messenger-card-bg text-[0.9375rem] leading-[1.3333] shadow-lg">
           {/* info recieved person */}
@@ -188,10 +191,10 @@ const BoxMessage = ({ item, handleMinimizeMessageBox, handleCloseMessageBox }: M
             {/* messages */}
             <div className="relative flex max-h-full flex-1 flex-col overflow-hidden ">
               <div className="relative flex max-h-full flex-1 flex-col overflow-hidden border-l-2 border-r-2 border-messenger-card-bg">
-                <div className="relative flex flex-1 flex-col overflow-x-hidden overflow-y-scroll scrollbar scrollbar-track-transparent scrollbar-thumb-fifth-clr    scrollbar-thumb-rounded-md scrollbar-w-2 hover:scrollbar-track-[#2c2d2f]"
+                <div
+                  className="relative flex flex-1 flex-col overflow-x-hidden overflow-y-scroll scrollbar scrollbar-track-transparent scrollbar-thumb-fifth-clr    scrollbar-thumb-rounded-md scrollbar-w-2 hover:scrollbar-track-[#2c2d2f]"
                   ref={messageBoxRef}
                 >
-
                   {status === 'pending' ? (
                     <div>Loading...</div>
                   ) : status === 'error' ? (
@@ -203,11 +206,9 @@ const BoxMessage = ({ item, handleMinimizeMessageBox, handleCloseMessageBox }: M
                         onClick={() => fetchPreviousPage()}
                         disabled={!hasPreviousPage || isFetchingPreviousPage}
                       >
-                        {isFetchingPreviousPage && hasPreviousPage
-                          ? (
-                            <div>load older</div>
-                          )
-                          : null}
+                        {isFetchingPreviousPage && hasPreviousPage ? (
+                          <div>load older</div>
+                        ) : null}
                       </button>
                       {/* each message */}
                       {Array.from(Array(10).keys()).map((item, index) => (
@@ -385,11 +386,8 @@ const BoxMessage = ({ item, handleMinimizeMessageBox, handleCloseMessageBox }: M
                           <div className="h-[7px] w-full bg-messenger-card-bg "></div>
                         </div>
                       </div>
-                      
                     </>
                   )}
-
-                  
                 </div>
               </div>
             </div>
@@ -453,7 +451,7 @@ const BoxMessage = ({ item, handleMinimizeMessageBox, handleCloseMessageBox }: M
         </div>
       </div>
     </li>
-  )
-}
+  );
+};
 
-export default BoxMessage
+export default BoxMessage;

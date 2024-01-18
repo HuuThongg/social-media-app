@@ -102,7 +102,7 @@ export function CreatePost() {
               height={40}
             />
           </Link>
-          <Dialog open={isModalOpen} onOpenChange={handleCLose} >
+          <Dialog open={isModalOpen} onOpenChange={handleCLose}>
             <DialogTrigger asChild>
               <div
                 className="relative flex min-w-0 shrink grow basis-0 cursor-pointer select-none items-center justify-start rounded-2xl bg-third-clr px-3 py-2 ring-blue-500 ring-offset-2 ring-offset-white hover:bg-fourth-clr focus:outline-none focus-visible:ring"
@@ -131,17 +131,16 @@ export function CreatePost() {
                           href={'/'}
                           className=" m-0 flex h-[40px] w-[40px] cursor-pointer overflow-hidden rounded-full p-0"
                         >
-                          
-                          <UserButton className='w-[40px] h-[40px]'/>
+                          <UserButton className="h-[40px] w-[40px]" />
                         </Link>
                       </div>
                       <div className="-mt-2 flex grow flex-col">
                         <div className="my-1">
                           <span className="block min-w-0 max-w-full break-words text-left text-xs font-semibold">
-                            <h4 className="mt-1 text-left text-sd">
+                            <h4 className="text-sd mt-1 text-left">
                               <Link
                                 href={'/'}
-                                className="cursor-pointer hover:underline text-primary-text"
+                                className="cursor-pointer text-primary-text hover:underline"
                               >
                                 Huu Thong
                               </Link>
@@ -269,7 +268,7 @@ export function CreatePost() {
                   {/* post */}
                   <div className="min-h-0 shrink-0 grow">
                     <div className="border-border-primary-icon-clr-hover mt-2 flex items-center justify-between rounded-md border px-3 pb-1">
-                      <h4 className="cursor-pointer text-sd">
+                      <h4 className="text-sd cursor-pointer">
                         Add to your post
                       </h4>
                       <div className="flex">
